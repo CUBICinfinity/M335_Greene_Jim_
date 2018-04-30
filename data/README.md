@@ -1,0 +1,1 @@
+# This folder stores large data files.  It will not be synced to github.
