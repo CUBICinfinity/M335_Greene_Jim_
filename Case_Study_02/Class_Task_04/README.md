@@ -30,28 +30,37 @@ near(value, value)
 =============
 use
 %in%
+
 =======
 base R has &&, ||
+
 =======
 NA tends to be treated as an unknown number
 but not always
+
 ======
 NA is always at the end in sorting
+
 =====
 the ':' selects the range as it appear in the data
+
 =====
 do ?select
 everything() is nice
 
- This is how you use one_of()
+This is how you use one_of()
 vars <- select(fly, one_of(c("year", "month", "day", "dep_delay", "arr_delay")))
+
 =====
 rename(data, new_name = column)
+
 =======
 contains() is not case sensitive by default
+
 =====
 mutate(data, new_col = stuff) make new col
 transmute() replaces
+
 =====
 see 5.5.1:
 
@@ -69,33 +78,41 @@ lead(x, 3)
 min_rank(), etc:
 
 https://cran.r-project.org/web/packages/dplyr/vignettes/window-functions.html
+
 ======
 ## important:
 summarise(data, extra_stuff) quick nice
 
 use group_by()
+
 ====
 pipe (see 5.6.1):
 %>%
 
 also, + in ggplot
+
 ===
 , na.rm = T) removes na values
+
 ====
 transpose and compare data in new ways to see things more clearly or differently.
+
 ====
  Cmd/Ctrl + Shift + P
  send last chunk to console
 
 send with ctrl+enter
+
 ====
 mad() = median absolute deviation
 also, there is an IQR()
 
 quantile(x, <percent>) percentile
+
 ====
 sum(!is.na(x))
 n_distinct(x)  
+
 ===
 THIS IS COOL
 daily <- group_by(fly, year, month, day)
@@ -104,11 +121,14 @@ daily <- group_by(fly, year, month, day)
 (per_year  <- summarise(per_month, flights = sum(flights)))
 
 you can ungroup()
+
 ===
 
 sort(x, count= )
+
 ===
 vignette("window-functions")
+
 ===
 
 
