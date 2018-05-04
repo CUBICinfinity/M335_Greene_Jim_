@@ -10,7 +10,7 @@ output:
 ---
 
 Measuring business or career success as a response of lifestyles.
-
+</br>
 Price tag numbering psycholgy.</br>
 <div style="padding-left:30px; padding-right:30px;">
   A few resources on this:</br>
@@ -22,11 +22,11 @@ Another input:
 An actual report:
   https://acta.mendelu.cz/media/pdf/actaun_2011059070029.pdf
 </div>
-
+</br>
 The effectiveness of staffing levels and hours of operation for a business.
-
+</br>
 The effects of talking to or touching plants. Or general environmental factors.
-
+</br>
 Effects of changes in firearm policies.</br>
 <div style="padding-left:30px; padding-right:30px;">
   Resources:</br>
@@ -36,6 +36,6 @@ Opinion polls:
   https://github.com/fivethirtyeight/data/blob/master/poll-quiz-guns/guns-polls.csv</br>
   https://catalog.data.gov/dataset?tags=firearms
 </div>
-
+</br>
 Metals in rain water.
 
