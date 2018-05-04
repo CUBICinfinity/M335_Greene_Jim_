@@ -35,3 +35,5 @@ http://stat4701.github.io/edav/2015/04/21/firearm-policy-project/
 opionion polls
 https://github.com/fivethirtyeight/data/blob/master/poll-quiz-guns/guns-polls.csv
 https://catalog.data.gov/dataset?tags=firearms
+
+rain water quality and/or metals and such
