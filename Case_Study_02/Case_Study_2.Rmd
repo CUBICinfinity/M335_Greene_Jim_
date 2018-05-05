@@ -18,7 +18,7 @@ library(scales)
 
 # Background
 
-The Gapminder dataset was used by Hans Rosling in his 2006 [TED talk](https://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen). I used it to recreate the plots below. Making animations will have to wait.This project allowed me to beter understand the tidyverse functions, including group_by(), summarize(), and piping or joining functions to others. The most important thing I learned is how much easier ggplot is than base R and how much I can produce as I get used to it.
+The Gapminder dataset was used by Hans Rosling in his 2006 [TED talk](https://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen). I used it to recreate the plots below. Making animations will have to wait. This project allowed me to better understand the tidyverse functions, including group_by(), summarize(), and piping or joining functions to others. The most important thing I learned is how much easier ggplot is than base R and how much I can produce as I get used to it.
 
 # Plots
 
