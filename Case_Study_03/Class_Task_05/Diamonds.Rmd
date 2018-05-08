@@ -17,7 +17,7 @@ ggsave("Case_Study_03/Class_Task_05/bad.png", width = 12, height = 12)
 ```
 ![](bad.png)
 
-This graph combines each of the 4 features of diamonds. I represented them in almost the messiest ways I could.
+This graph combines each of the 4 features of diamonds. I represented them in almost the messiest way I could. The image is too big for the text.
 
 
 ```{r, include=F, eval=F}
@@ -52,7 +52,7 @@ diamonds %>%
   theme(legend.position = "bottom") +
   guides(colour = guide_legend(nrow = 1, override.aes = list(size = 3, alpha = 1))) +
   labs(x = "Carat Weight", y = "Price", color = "Clarity", title = "Diamond Prices")
-ggsave("Case_Study_03/Class_Task_05/better.png", width = 12, height = 12)
+ggsave("Case_Study_03/Class_Task_05/better.png", width = 7, height = 7)
 ```
 ![](better.png)
 
