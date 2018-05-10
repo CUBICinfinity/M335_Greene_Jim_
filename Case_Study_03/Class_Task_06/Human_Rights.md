@@ -33,12 +33,12 @@ filter(rights, country == 'Norway' | country == 'China' | country == 'South Kore
   geom_line(mapping = aes(year, score, color = country)) +
   scale_y_continuous(breaks = seq(-2, 3, by = 1)) +
   scale_x_continuous(breaks = c(1949, seq(1960, 2000, by = 10), 2014)) +
-  labs(title = "Human Rights Protection", x = "", y = "", subtitle = "Higher values indicate better human rights protection. The humanrights scores measure protection from
+  labs(title = "Human Rights Protection", x = "", y = "", subtitle = "Higher values indicate better human rights protection. The human rights scores measure protection from
 political repression and violations of “physical integrity rights”.", 
 caption = "Source: Human RIghts Protection Scores - Christopher Farris (2014) and Keith Schnakenburg
 Note: The protection scores are latent variable estimates and are described in more detail in the
 Sources Tab. The original dataset is published with uncertainty estimates, which should be considered
-but cannot be shown here because of technical limitations.", color = "Continent") +
+but cannot be shown here because of technical limitations.", color = "") +
   theme(plot.caption = element_text(hjust = 0.0))
 ```
 
