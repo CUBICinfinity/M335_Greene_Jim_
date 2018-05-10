@@ -2,7 +2,11 @@
 title: "Task 5: Diamonds"
 author: "Jim Greene"
 date: "May 8, 2018"
-output: html_document
+output: 
+  html_document:
+    theme: default
+    keep_md: true
+    code_folding: hide
 ---
 
 ### Bad Graph:
