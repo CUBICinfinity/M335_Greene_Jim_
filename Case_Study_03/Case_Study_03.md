@@ -16,7 +16,7 @@ output:
 The NYCflights13::flights dataset contains all flights departing from NYC airports in 2013 (See R Documentation). </br>
 In this analysis I address two questions: </br>
 
-#### If one is leaving before noon, which two airlines would I recommend at each airport (JFK, LGA, EWR) that will have the lowest delay time at the 75th percentile?
+#### 1. If one is leaving before noon, which two airlines would I recommend at each airport (JFK, LGA, EWR) that will have the lowest delay time at the 75th percentile?
 
 Based on the 75th percentiles, for EWR, I reccommend Endeavor (9E) or US Airways (US); </br>
 for JFK, I reccomend Delta (DL) or American Airlines (AA); </br>
@@ -93,8 +93,9 @@ filter(flights, sched_dep_time < 1200) %>%
 
 ![](Case_Study_03_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
+</br>
 
-### Which origin airport is best to minimize one's chances of a late arrival when using Delta Airlines?
+#### 2. Which origin airport is best to minimize one's chances of a late arrival when using Delta Airlines?
 
 Buffalo Niagara Intl (BUF) and Cyril E. King (STT) are the least likely destinations to arrive at late.
 
@@ -154,3 +155,9 @@ filter(flights, carrier == "DL" & dest != "JAC" & dest != "JAX" & dest != "PHL" 
 ![](Case_Study_03_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 
+
+</br>
+
+#### Prominent quote from "What do people do with new data"
+
+"@hmason Interview the source, if possible, to know all of the problems with the data, use limitations, caveats, etc. — Evan Thomas Paul (@evanthomaspaul) June 12, 2014"
