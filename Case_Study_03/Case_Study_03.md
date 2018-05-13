@@ -16,7 +16,7 @@ output:
 The NYCflights13::flights dataset contains all flights departing from NYC airports in 2013 (See R Documentation). </br>
 In this analysis I address two questions: </br>
 
-#### 1. If one is leaving before noon, which two airlines would I recommend at each airport (JFK, LGA, EWR) that will have the lowest delay time at the 75th percentile?
+#### If one is leaving before noon, which two airlines would I recommend at each airport (JFK, LGA, EWR) that will have the lowest delay time at the 75th percentile?
 
 Based on the 75th percentiles, for EWR, I reccommend Endeavor (9E) or US Airways (US); </br>
 for JFK, I reccomend Delta (DL) or American Airlines (AA); </br>
@@ -95,9 +95,9 @@ filter(flights, sched_dep_time < 1200) %>%
 
 </br>
 
-#### 2. Which origin airport is best to minimize one's chances of a late arrival when using Delta Airlines?
+#### Which destination airport is the worst airport for arrival time?
 
-Buffalo Niagara Intl (BUF) and Cyril E. King (STT) are the least likely destinations to arrive at late.
+The two worst are Cincinnati Northern Kentucky (CVG) and Key West (EYW), based on the probability of arriving late:
 
 <center>
 
@@ -108,6 +108,41 @@ chance <- filter(flights, carrier == "DL" & dest != "JAC" & dest != "JAX" & dest
 #chance$`Probability of arriving later than 2 minutes` <- reorder(chance$`Probability of arriving later than 2 minutes`)
 chance <- arrange(chance, prob)
 colnames(chance) <- c("Destination", "Probability of arriving more than 2 minutes behind schedule")
+pander(tail(chance, 10))
+```
+
+
+----------------------------------------------
+ Destination    Probability of arriving more  
+               than 2 minutes behind schedule 
+------------- --------------------------------
+     MIA                   0.3336             
+
+     PIT                   0.3401             
+
+     PDX                   0.3479             
+
+     FLL                   0.3498             
+
+     SAT                   0.3543             
+
+     RSW                   0.3582             
+
+     ATL                   0.3707             
+
+     DEN                   0.3948             
+
+     CVG                    0.5               
+
+     EYW                   0.5294             
+----------------------------------------------
+</center>
+
+Buffalo Niagara Intl (BUF) and Cyril E. King (STT) are the most likely destinations to arrive on time:
+
+<center>
+
+```r
 pander(head(chance, 10))
 ```
 
@@ -152,7 +187,7 @@ filter(flights, carrier == "DL" & dest != "JAC" & dest != "JAX" & dest != "PHL" 
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-![](Case_Study_03_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](Case_Study_03_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 
 

@@ -20,7 +20,7 @@ library(pander)
 The NYCflights13::flights dataset contains all flights departing from NYC airports in 2013 (See R Documentation). </br>
 In this analysis I address two questions: </br>
 
-#### 1. If one is leaving before noon, which two airlines would I recommend at each airport (JFK, LGA, EWR) that will have the lowest delay time at the 75th percentile?
+#### If one is leaving before noon, which two airlines would I recommend at each airport (JFK, LGA, EWR) that will have the lowest delay time at the 75th percentile?
 
 Based on the 75th percentiles, for EWR, I reccommend Endeavor (9E) or US Airways (US); </br>
 for JFK, I reccomend Delta (DL) or American Airlines (AA); </br>
@@ -80,9 +80,9 @@ filter(flights, sched_dep_time < 1200) %>%
 
 </br>
 
-#### 2. Which origin airport is best to minimize one's chances of a late arrival when using Delta Airlines?
+#### Which destination airport is the worst airport for arrival time?
 
-Buffalo Niagara Intl (BUF) and Cyril E. King (STT) are the least likely destinations to arrive at late.
+The two worst are Cincinnati Northern Kentucky (CVG) and Key West (EYW), based on the probability of arriving late:
 
 <center>
 ```{r}
@@ -92,6 +92,14 @@ chance <- filter(flights, carrier == "DL" & dest != "JAC" & dest != "JAX" & dest
 #chance$`Probability of arriving later than 2 minutes` <- reorder(chance$`Probability of arriving later than 2 minutes`)
 chance <- arrange(chance, prob)
 colnames(chance) <- c("Destination", "Probability of arriving more than 2 minutes behind schedule")
+pander(tail(chance, 10))
+```
+</center>
+
+Buffalo Niagara Intl (BUF) and Cyril E. King (STT) are the most likely destinations to arrive on time:
+
+<center>
+```{r}
 pander(head(chance, 10))
 ```
 </center>
