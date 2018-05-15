@@ -13,7 +13,6 @@ output:
 
 
 ```r
-#, fig.width = 10, fig.height = 15
 filter(heal, year > 1995 & continent != 'NA') %>%
   group_by(country) %>% 
   ggplot() +

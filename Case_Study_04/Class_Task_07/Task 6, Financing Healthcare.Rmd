@@ -16,8 +16,7 @@ library(modelr)
 heal <- financing_healthcare
 ```
 
-```{r, eval = T, echo = T} 
-#, fig.width = 10, fig.height = 15
+```{r, eval = T, echo = T, fig.width = 10, fig.height = 10} 
 filter(heal, year > 1995 & continent != 'NA') %>%
   group_by(country) %>% 
   ggplot() +
