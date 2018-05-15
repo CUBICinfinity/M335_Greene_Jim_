@@ -1,0 +1,114 @@
+---
+title: "Experimental Chunks"
+author: "Jim Greene"
+date: "May 15, 2018"
+output: html_document
+---
+
+single
+
+mort
+```{r}
+
+
+
+heal %>% 
+  ggplot() +
+  geom_histogram(aes(x = child_mort), binwidth = 5)
+```
+
+life exp
+```{r, eval = F, echo = F}
+heal %>% 
+  ggplot() +
+  geom_histogram(aes(x = life_expectancy), binwidth = 2)
+```
+
+gdp
+```{r, eval = F, echo = F}
+heal %>% 
+  ggplot() +
+  geom_histogram(aes(x = gdp), binwidth = 2000)
+```
+
+helth_exp
+```{r, eval = F, echo = F}
+heal %>% 
+  ggplot() +
+  geom_histogram(aes(x = health_exp_total), biwidth = 100)
+```
+
+co
+
+mort exp
+```{r, eval = F, echo = F}
+filter(heal, year > 1995 & continent != 'NA') %>%
+  ggplot() +
+  geom_point(mapping = aes(health_exp_total, child_mort, color = year, alpha = 0.001)) +
+  labs(title = "Interaction between healthcare expenses and child mortaity", y = "Child Mortality Per 1,000", x = "Health Expenses Per Capita", size = "Country Population in Millions", color = "Year", alpha = "Individual Countries") +
+  facet_wrap( ~ continent)
+```
+
+gdp exp
+```{r, eval = F, echo = F}
+filter(heal, year > 1995 & continent != 'NA') %>%
+  group_by(continent) %>%
+  ggplot() +
+  geom_point(aes(gdp, health_exp_total, color = year, alpha = 1/10000000)) +
+  labs(title = "title", x = "gdp per cap", y = "health care", size = "") +
+  facet_wrap( ~ continent)
+```
+
+year exp (decided I don't care about year)
+```{r, eval = F, echo = F}
+filter(heal, year > 1995 & continent != 'NA') %>%
+  group_by(continent) %>%
+  ggplot() +
+  geom_point(aes(year, health_exp_total, color = year, alpha = 1/10000)) +
+  labs(title = "title", x = "year", y = "exp", size = "") +
+  facet_wrap( ~ continent)
+```
+
+life_exp care_exp
+```{r}
+filter(heal, year > 1995 & continent != 'NA') %>%
+  group_by(continent) %>%
+  ggplot() +
+  geom_point(aes(health_exp_total, life_expectancy, color = year, alpha = 1/10000)) +
+  labs(title = "title", x = "health care", y = "exp", size = "") +
+  facet_wrap( ~ continent)
+```
+
+life_exp, mort
+```{r}
+filter(heal, year > 1995 & continent != 'NA') %>%
+  group_by(continent) %>%
+  ggplot() +
+  geom_point(aes(child_mort, life_expectancy, color = year, alpha = 1/1000)) +
+  labs(title = "", y = "health care", x = "child mortality", size = "") +
+  facet_wrap( ~ continent)
+```
+
+
+
+
+
+
+
+
+resid attempt
+```{r, eval = F, echo = F}
+# mod <- lm(year ~ gdp, data = heal)
+# 
+# heal <- heal %>% 
+#   add_residuals(mod) %>% 
+#   transmute(resid = resid)
+# 
+# filter(heal, year > 1995 & continent != 'NA') %>% 
+#   group_by(continent) %>%
+#   ggplot() + 
+#   geom_point(aes(x = health_exp_total, y = resid, color = contient, alpha = 1/10000))
+```
+
+
+
