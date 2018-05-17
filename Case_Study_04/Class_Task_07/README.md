@@ -107,3 +107,10 @@ ggplot(data = diamonds2) +
 =====
 
 devtools::install_github("r-lib/devtools")
+
+=====
+
+faithful %>% 
+  ggplot(aes(eruptions)) +
+  geom_histogram(color = "white") +
+  labs(x = "Duration of eruptions (minutes)")
