@@ -50,7 +50,7 @@ nics %>%
   ggplot(aes(permit_recheck)) +
   geom_histogram()
 ```
-It would help to know what permit_recheck means.
+</br>It would help to know what permit_recheck means.
 
 
 ```{r}
@@ -72,6 +72,8 @@ nics %>%
 
 This is an opinion poll that took place February-March 2018.</br>
 It has a nice variety of questions and can provide useful background information. I don't particularly like polls however, because they are unlikely correctly represent the population. I wouldn't rely on the data for an analysis.
+
+</br>
 
 #### Using the data
 
@@ -100,6 +102,8 @@ filter(poll, Question == "stricter-gun-laws") %>%
 The details about race and age will be helpful because a part of the motivation of my project is to determine what firearm laws are recommendable. There is also a column indicating the location of the incident (home, street, etc.). These details would prompt me to put in other data sets so that I can compare for example, the proportion of people in the US with bachelor's degrees.
 This is the same data set that is used in Case Study 4, but I found it on my own. The source includes a lot of useful R scripts examples.
 
+</br>
+
 #### Using the Data
 
 usa <- read_csv("full_data.csv")
@@ -122,6 +126,8 @@ usa %>%
 Summaries pulled from Gunpolicy.org</br>
 This one is really useful. It includes gun related death rates along with the number of guns people own which is exactly the kind of thing I am looking for.</br>
 I found it through this project: https://data.world/pshaff/gun-ownership
+
+</br>
 
 #### Using the Data
 
