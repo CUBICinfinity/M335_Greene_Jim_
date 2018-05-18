@@ -23,7 +23,8 @@ This data set has limitations including that it is only the purchases through NI
 
 </br>
 
-#### Using the data
+
+#### Loading the data
 
 I learned from Dallin that a quick way to read in a data frame from the internet is by putting the url to the raw file in the read_csv() function:</br>
 nics <- read_csv("https://raw.githubusercontent.com/BuzzFeedNews/nics-firearm-background-checks/master/data/nics-firearm-background-checks.csv")
@@ -77,6 +78,11 @@ nics %>%
 
 </br>
 
+#### Usefulness of this Data
+
+My questions is what firearms policies would be beneficial for the United States. This data could be helpful in understanding current policies surrounding firearms sales. It will probably not be directly useful to understanding crime trends unless paired with more state specific data.
+</br></br>
+
 ## Guns Poll Quiz
 
 #### Link: [FiveThirtyEight, Guns Poll Quiz](https://github.com/fivethirtyeight/data/tree/master/poll-quiz-guns)
@@ -86,7 +92,7 @@ It has a nice variety of questions and can provide useful background information
 
 </br>
 
-#### Using the data
+#### Loading the data
 
 poll <- read_csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/poll-quiz-guns/guns-polls.csv")
 
@@ -112,6 +118,11 @@ filter(poll, Question == "stricter-gun-laws") %>%
 
 </br>
 
+#### Usefulness of this Data
+
+As I said previously, this provides background information. Other than that this won't help answer my question.
+</br></br>
+
 ## 538's Report on Gun Deaths
 
 #### Link: [data.world, 538's Report on Gun Deaths](https://data.world/azel/gun-deaths-in-america)
@@ -121,7 +132,7 @@ This is the same data set that is used in Case Study 4, but I found it on my own
 
 </br>
 
-#### Using the Data
+#### Loading the Data
 
 usa <- read_csv("full_data.csv")
 
@@ -146,6 +157,12 @@ usa %>%
 
 ![](Firearms_Data_Sources_-_Task_8_files/figure-html/unnamed-chunk-4-2.png)<!-- -->
 
+</br>
+
+#### Usefulness of this Data
+
+The nice thing about this data set is it's fairly large. It provides information about the nature of gun related deaths in the US. I will make use of the information this one provides. It would be nice if one of the columns provided the state, but it doesn't.
+</br></br>
 
 ## List of Countries by Firearm-Related Death Rate
 
@@ -157,7 +174,7 @@ I found it through this project: https://data.world/pshaff/gun-ownership
 
 </br>
 
-#### Using the Data
+#### Loading the Data
 
 world <- read_csv("gun_deaths.csv")
 
@@ -209,3 +226,12 @@ world %>%
 ```
 
 ![](Firearms_Data_Sources_-_Task_8_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+
+</br>
+
+#### Usefulness of this Data
+
+Unfortunately this data is not very detailed, but it exactly answers some of the questions I have to help me come to a conclusion. I will take a look at the data Wikipedia sumarized this from and that might give me more of what I need.
+</br></br>
+
+
