@@ -28,6 +28,7 @@ filter(usa, intent != 'NA') %>%
 
 ![](Case_Study_4_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
 
+
 ```r
 filter(usa, intent != 'NA') %>% 
   ggplot(aes(race, fill = intent)) +
@@ -36,7 +37,7 @@ filter(usa, intent != 'NA') %>%
   labs(x = "", y = "Proportion", fill = "Intent")
 ```
 
-![](Case_Study_4_files/figure-html/unnamed-chunk-1-2.png)<!-- -->
+![](Case_Study_4_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 
 
@@ -53,10 +54,11 @@ usa %>%
   geom_bar() +
   facet_wrap( ~ year, nrow = 1) +
   theme(legend.position = "none") +
+  #scale_x_date(breaks = "1 month", labels=(date_format="%B")) +
   labs(title = "Number of Gun Deaths", fill = "Year", y = "", x = "Month")
 ```
 
-![](Case_Study_4_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](Case_Study_4_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 </br>February has the least gun deaths and this is due to more than it being a shorter month.
 
 I'll break this up by cause of death.
@@ -71,7 +73,7 @@ filter(usa, intent != "NA" & intent != "Undetermined") %>%
   scale_x_discrete(position = "top")
 ```
 
-![](Case_Study_4_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](Case_Study_4_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 </br>Accidental gun deaths seem to reflect holiday and vacation times. Much fewer homicides occur in Febraury and the most occur in the Summer and in December. Less suicides occur in November, December, and February.
 
 You are less likely to be shot by the police in February too.
@@ -83,7 +85,7 @@ filter(usa, as.factor(police) == 1) %>%
   labs(title = "Killings by Police")
 ```
 
-![](Case_Study_4_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](Case_Study_4_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 It could be that the fewer deaths in February are a result of people being distracted by Valentines Day. This especially makes sense for homicides as shooting isn't very romantic.
 

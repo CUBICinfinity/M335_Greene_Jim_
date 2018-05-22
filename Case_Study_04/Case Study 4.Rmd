@@ -15,6 +15,8 @@ usa <- read_csv("Class_Task_08/full_data.csv")
 
 # dat %>%
 # mutate(intent = fct_reorder(intent, count_of_deaths_per_month, max))
+
+#parse_date(usa$month, format = "%m")
 ```
 
 ## Publication from FiveThirtyEight
@@ -23,13 +25,15 @@ usa <- read_csv("Class_Task_08/full_data.csv")
 
 ## My own graphics from this data
 
-```{r}
+```{r, fig.height = 2}
 filter(usa, intent != 'NA') %>% 
   ggplot(aes("Gun Deaths", fill = intent)) +
   geom_bar(position = "fill") +
   coord_flip() +
   labs(x = "", y = "Proportion", fill = "Intent")
+```
 
+```{r, fig.height = 3}
 filter(usa, intent != 'NA') %>% 
   ggplot(aes(race, fill = intent)) +
   geom_bar(position = "fill") +
@@ -63,6 +67,7 @@ usa %>%
   geom_bar() +
   facet_wrap( ~ year, nrow = 1) +
   theme(legend.position = "none") +
+  #scale_x_date(breaks = "1 month", labels=(date_format="%B")) +
   labs(title = "Number of Gun Deaths", fill = "Year", y = "", x = "Month")
 ```
 </br>February has the least gun deaths and this is due to more than it being a shorter month.
