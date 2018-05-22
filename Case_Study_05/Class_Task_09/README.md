@@ -1,4 +1,22 @@
+read_rds(gzcon(url("https://github.com/byuistats/data/blob/master/Dart_Expert_Dow_6month_anova/Dart_Expert_Dow_6month_anova.RDS?raw=true")))
+
+It pulls the URL to be decompressed by gzcon and read_rds converts the string format to a data frame
+
+
+"https://github.com/byuistats/data/blob/master/Dart_Expert_Dow_6month_anova/Dart_Expert_Dow_6month_anova.RDS?raw=true" %>% 
+url() %>% 
+gzcon() %>% 
+read_rds()
+
+
+-----------
+
 Chapter 11 Notes : Parsing and reading files
+
+
+install.packages("downloader")
+
+----------
 
 You can use skip = n to skip the first n lines; or use comment = "#" to drop all lines that start with (e.g.) #.
 
