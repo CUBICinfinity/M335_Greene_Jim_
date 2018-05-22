@@ -1,3 +1,8 @@
+read.csv parses a csv file and converts it into a data frame
+same as read_csv, which is a simpler version of read_delim
+
+----------
+
 read_rds(gzcon(url("https://github.com/byuistats/data/blob/master/Dart_Expert_Dow_6month_anova/Dart_Expert_Dow_6month_anova.RDS?raw=true")))
 
 It pulls the URL to be decompressed by gzcon and read_rds converts the string format to a data frame
