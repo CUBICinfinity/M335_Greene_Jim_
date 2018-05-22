@@ -4,7 +4,7 @@ You can use skip = n to skip the first n lines; or use comment = "#" to drop all
 
 col_names = FALSE to tell read_csv() not to treat the first row as headings
 
-\\n works
+\n works
 
 na = "."
 
@@ -19,7 +19,7 @@ parse_number("123.456.789", locale = locale(grouping_mark = "."))
 charToRaw("Hadley")
 #> [1] 48 61 64 6c 65 79
 
-x1 <- "El Ni\\xf1o was particularly bad this year"
+x1 <- "El Ni\xf1o was particularly bad this year"
 parse_character(x1, locale = locale(encoding = "Latin1"))
 
 chapter 11 has all the codes for dates
