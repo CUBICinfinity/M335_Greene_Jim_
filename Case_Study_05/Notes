@@ -1,0 +1,14 @@
+Class Notes
+
+method 1 foreign::read.spss(    to.data.frame = TRUE)
+
+method 2
+haven::read_sav()
+downgrade 1.1.0
+
+method 3
+mars development version (mac only)
+
+
+see ?install.packages
+type = "source"

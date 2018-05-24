@@ -69,6 +69,7 @@ Showing a table of returns for DJIA
 dart$month_end <- gsub("Dec.", "December", dart$month_end)
 dart$month_end <- gsub("Decembermber", "December", dart$month_end)
 dart$month_end <- gsub("Febuary", "February", dart$month_end)
+dart$month_end <- factor(dart$month_end, levels = month.name)
 
 filter(dart, variable == "DJIA") %>% 
   spread(key = year_end, value = value) %>% 
@@ -78,26 +79,26 @@ filter(dart, variable == "DJIA") %>%
 ```
 ## # A tibble: 12 x 10
 ##    month_end `1990`  `1991`  `1992` `1993`  `1994` `1995` `1996`  `1997`
-##    <chr>      <dbl>   <dbl>   <dbl>  <dbl>   <dbl>  <dbl>  <dbl>   <dbl>
-##  1 April      NA     16.2    10.6    5.80    0.500  12.8  14.8    15.3  
-##  2 August     -2.30   4.40   -0.300  7.30    1.50   15.3   0.600   8.30 
-##  3 December   -9.30   6.60    0.200  8.00    3.60    9.30 15.5    -0.700
-##  4 February   NA     11.0     8.60   2.50    5.50    3.20 15.6    20.1  
-##  5 January    NA     -0.800   6.50  -0.800  11.2     1.80 15.0    19.6  
-##  6 July       11.5    7.60    4.20   3.70   -5.30   19.6   1.30   20.8  
-##  7 June        2.50  17.7     3.60   7.70   -6.20   16.0  10.2    16.2  
-##  8 March      NA     15.8     7.20   9.00    1.60    7.30 18.4     9.60 
-##  9 May        NA     17.3    17.6    6.70    1.30   19.5   9.00   13.3  
-## 10 November  -12.8   -3.30   -2.80   4.90   -0.300  13.1  15.1     3.80 
-## 11 October    -8.50   4.40   -5.00   5.70    6.90    8.20  7.20    3.00 
-## 12 September  -9.20   3.40   -0.100  5.20    4.40   14.0   5.80   20.2  
+##    <fct>      <dbl>   <dbl>   <dbl>  <dbl>   <dbl>  <dbl>  <dbl>   <dbl>
+##  1 January    NA     -0.800   6.50  -0.800  11.2     1.80 15.0    19.6  
+##  2 February   NA     11.0     8.60   2.50    5.50    3.20 15.6    20.1  
+##  3 March      NA     15.8     7.20   9.00    1.60    7.30 18.4     9.60 
+##  4 April      NA     16.2    10.6    5.80    0.500  12.8  14.8    15.3  
+##  5 May        NA     17.3    17.6    6.70    1.30   19.5   9.00   13.3  
+##  6 June        2.50  17.7     3.60   7.70   -6.20   16.0  10.2    16.2  
+##  7 July       11.5    7.60    4.20   3.70   -5.30   19.6   1.30   20.8  
+##  8 August     -2.30   4.40   -0.300  7.30    1.50   15.3   0.600   8.30 
+##  9 September  -9.20   3.40   -0.100  5.20    4.40   14.0   5.80   20.2  
+## 10 October    -8.50   4.40   -5.00   5.70    6.90    8.20  7.20    3.00 
+## 11 November  -12.8   -3.30   -2.80   4.90   -0.300  13.1  15.1     3.80 
+## 12 December   -9.30   6.60    0.200  8.00    3.60    9.30 15.5    -0.700
 ## # ... with 1 more variable: `1998` <dbl>
 ```
 
 ```r
   #pander() #Pander does not display well in md files
 ```
-This is a nice way to prepare the data for a human to view. February and December appear with various spellings, so I needed to fix them. There must be a more elegant way to do so. I haven't bothered to rearrange the months, but that is something I should practice.
+This is a nice way to prepare the data for a human to view. February and December appear with various spellings, so I needed to fix them. There must be a more elegant way to do so. I also rearranged the months.
 
 </br>
 
