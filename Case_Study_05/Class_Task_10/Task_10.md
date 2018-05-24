@@ -72,38 +72,31 @@ dart$month_end <- gsub("Febuary", "February", dart$month_end)
 
 filter(dart, variable == "DJIA") %>% 
   spread(key = year_end, value = value) %>% 
-  select(-variable) %>% 
-  pander()
+  select(-variable)# %>% 
 ```
 
+```
+## # A tibble: 12 x 10
+##    month_end `1990`  `1991`  `1992` `1993`  `1994` `1995` `1996`  `1997`
+##    <chr>      <dbl>   <dbl>   <dbl>  <dbl>   <dbl>  <dbl>  <dbl>   <dbl>
+##  1 April      NA     16.2    10.6    5.80    0.500  12.8  14.8    15.3  
+##  2 August     -2.30   4.40   -0.300  7.30    1.50   15.3   0.600   8.30 
+##  3 December   -9.30   6.60    0.200  8.00    3.60    9.30 15.5    -0.700
+##  4 February   NA     11.0     8.60   2.50    5.50    3.20 15.6    20.1  
+##  5 January    NA     -0.800   6.50  -0.800  11.2     1.80 15.0    19.6  
+##  6 July       11.5    7.60    4.20   3.70   -5.30   19.6   1.30   20.8  
+##  7 June        2.50  17.7     3.60   7.70   -6.20   16.0  10.2    16.2  
+##  8 March      NA     15.8     7.20   9.00    1.60    7.30 18.4     9.60 
+##  9 May        NA     17.3    17.6    6.70    1.30   19.5   9.00   13.3  
+## 10 November  -12.8   -3.30   -2.80   4.90   -0.300  13.1  15.1     3.80 
+## 11 October    -8.50   4.40   -5.00   5.70    6.90    8.20  7.20    3.00 
+## 12 September  -9.20   3.40   -0.100  5.20    4.40   14.0   5.80   20.2  
+## # ... with 1 more variable: `1998` <dbl>
+```
 
-----------------------------------------------------------------------------
- month_end   1990    1991   1992   1993   1994   1995   1996   1997   1998  
------------ ------- ------ ------ ------ ------ ------ ------ ------ -------
-   April      NA     16.2   10.6   5.8    0.5    12.8   14.8   15.3   22.5  
-
-  August     -2.3    4.4    -0.3   7.3    1.5    15.3   0.6    8.3    -13.1 
-
- December    -9.3    6.6    0.2     8     3.6    9.3    15.5   -0.7    NA   
-
- February     NA      11    8.6    2.5    5.5    3.2    15.6   20.1   10.7  
-
-  January     NA     -0.8   6.5    -0.8   11.2   1.8     15    19.6   -0.3  
-
-   July      11.5    7.6    4.2    3.7    -5.3   19.6   1.3    20.8    7.1  
-
-   June       2.5    17.7   3.6    7.7    -6.2    16    10.2   16.2    15   
-
-   March      NA     15.8   7.2     9     1.6    7.3    18.4   9.6     7.6  
-
-    May       NA     17.3   17.6   6.7    1.3    19.5    9     13.3   10.6  
-
- November    -12.8   -3.3   -2.8   4.9    -0.3   13.1   15.1   3.8     NA   
-
-  October    -8.5    4.4     -5    5.7    6.9    8.2    7.2     3      NA   
-
- September   -9.2    3.4    -0.1   5.2    4.4     14    5.8    20.2   -11.8 
-----------------------------------------------------------------------------
+```r
+  #pander() #Pander does not display well in md files
+```
 This is a nice way to prepare the data for a human to view. February and December appear with various spellings, so I needed to fix them. There must be a more elegant way to do so. I haven't bothered to rearrange the months, but that is something I should practice.
 
 </br>

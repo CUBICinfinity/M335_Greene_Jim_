@@ -63,8 +63,8 @@ dart$month_end <- gsub("Febuary", "February", dart$month_end)
 
 filter(dart, variable == "DJIA") %>% 
   spread(key = year_end, value = value) %>% 
-  select(-variable) %>% 
-  pander()
+  select(-variable)# %>% 
+  #pander() #Pander does not display well in md files
 ```
 This is a nice way to prepare the data for a human to view. February and December appear with various spellings, so I needed to fix them. There must be a more elegant way to do so. I haven't bothered to rearrange the months, but that is something I should practice.
 
