@@ -12,3 +12,11 @@ mars development version (mac only)
 
 see ?install.packages
 type = "source"
+
+data$end_month <- factor(data$end_month, levels = month.name)
+
+kable
+kableExtra
+
+these are better than just using pander
+

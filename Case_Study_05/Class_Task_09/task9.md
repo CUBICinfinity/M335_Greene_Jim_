@@ -13,7 +13,8 @@ output:
 
 
 ```r
-dart_rds <- read_rds(gzcon(url("https://github.com/byuistats/data/blob/master/Dart_Expert_Dow_6month_anova/Dart_Expert_Dow_6month_anova.RDS?raw=true")))
+dart_rds <- as_tibble(read_rds(gzcon(url("https://github.com/byuistats/data/blob/master/Dart_Expert_Dow_6month_anova/Dart_Expert_Dow_6month_anova.RDS?raw=true"))))
+
 # dart_temp <- tempfile(pattern = "dart", tmpdir = tempdir(), fileext = "rds")
 # write_rds(cart_rds, dart_temp)
 # dart_rds <- read_rds(dart_temp)
@@ -46,8 +47,7 @@ all.equal(dart_rds, dart_xlsx)
 ```
 
 ```
-## [1] "Attributes: < Component \"class\": Lengths (1, 3) differ (string compare on first 1) >"
-## [2] "Attributes: < Component \"class\": 1 string mismatch >"
+## [1] TRUE
 ```
 
 ```r
@@ -76,7 +76,7 @@ all.equal(dart_dta, dart_sav)
 
 
 ```r
-dart_sav %>% 
+dart_rds %>% 
   ggplot(aes(variable, value, fill = variable)) +
   theme_bw() +
   geom_hline(yintercept = 0, linetype = 3) +

@@ -67,7 +67,7 @@ filter(dart, variable == "DJIA") %>%
   select(-variable)# %>% 
   #pander() #Pander does not display well in md files
 ```
-This is a nice way to prepare the data for a human to view. February and December appear with various spellings, so I needed to fix them. There must be a more elegant way to do so. I also rearranged the months.
+This is a nice way to prepare the data for a human to view. February and December appear with various spellings, so I needed to fix them. There must be a more elegant way to do so. I also rearranged the months. 
 
 </br>
 
