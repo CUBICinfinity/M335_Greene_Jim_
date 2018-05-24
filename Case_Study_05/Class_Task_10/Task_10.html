@@ -159,28 +159,192 @@ read_rds(&quot;darts.rds&quot;)</code></pre>
   geom_boxplot(fill = &quot;#666666&quot;)</code></pre>
 <p><img src="data:image/png;base64,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" /><!-- --> </br>This is a simple boxplot to show the returns by year. I didn’t try to add more information than needed.</p>
 <p></br></p>
-<p>Spreading the data (if I needed to do that)</p>
-<pre class="r"><code>dart %&gt;%
-  group_by(value) %&gt;% 
-  do(tibble::rowid_to_column(.)) %&gt;% 
-  spread(key = year_end, value = month_end) %&gt;% 
-  select(-rowid)</code></pre>
-<pre><code>## # A tibble: 300 x 11
-## # Groups:   value [223]
-##    variable value `1990`  `1991` `1992` `1993` `1994` `1995` `1996` `1997`
-##    &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; 
-##  1 DARTS    -43.0 &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;   July   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;  
-##  2 DARTS    -37.3 &lt;NA&gt;    Janua~ &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;  
-##  3 DARTS    -34.2 &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;  
-##  4 DARTS    -27.4 Novemb~ &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;  
-##  5 DARTS    -23.2 &lt;NA&gt;    Novem~ &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;  
-##  6 DARTS    -22.5 Decemb~ &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;  
-##  7 DARTS    -21.4 &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;   Novem~ &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;  
-##  8 DARTS    -20.4 &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;  
-##  9 DARTS    -17.7 &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;   Septe~ &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;  
-## 10 DARTS    -16.9 &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   March 
-## # ... with 290 more rows, and 1 more variable: `1998` &lt;chr&gt;</code></pre>
-<p>Aparently tidyr::spread has a problem with duplicate values because it tries to condense rows as much as possible. The value column (Which I would rather call “return” and not “value”. I could have used colnames(dart)[4] &lt;- “return” to do that.) has just a couple duplicates. My code was the best solution I found based on reading about the problem online.</p>
+<p>Showing a table of returns for DJIA</p>
+<pre class="r"><code>dart$month_end &lt;- gsub(&quot;Dec.&quot;, &quot;December&quot;, dart$month_end)
+dart$month_end &lt;- gsub(&quot;Decembermber&quot;, &quot;December&quot;, dart$month_end)
+dart$month_end &lt;- gsub(&quot;Febuary&quot;, &quot;February&quot;, dart$month_end)
+
+filter(dart, variable == &quot;DJIA&quot;) %&gt;% 
+  spread(key = year_end, value = value) %&gt;% 
+  select(-variable) %&gt;% 
+  pander()</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="15%"></col>
+<col width="10%"></col>
+<col width="9%"></col>
+<col width="9%"></col>
+<col width="9%"></col>
+<col width="9%"></col>
+<col width="9%"></col>
+<col width="9%"></col>
+<col width="9%"></col>
+<col width="9%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">month_end</th>
+<th align="center">1990</th>
+<th align="center">1991</th>
+<th align="center">1992</th>
+<th align="center">1993</th>
+<th align="center">1994</th>
+<th align="center">1995</th>
+<th align="center">1996</th>
+<th align="center">1997</th>
+<th align="center">1998</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">April</td>
+<td align="center">NA</td>
+<td align="center">16.2</td>
+<td align="center">10.6</td>
+<td align="center">5.8</td>
+<td align="center">0.5</td>
+<td align="center">12.8</td>
+<td align="center">14.8</td>
+<td align="center">15.3</td>
+<td align="center">22.5</td>
+</tr>
+<tr class="even">
+<td align="center">August</td>
+<td align="center">-2.3</td>
+<td align="center">4.4</td>
+<td align="center">-0.3</td>
+<td align="center">7.3</td>
+<td align="center">1.5</td>
+<td align="center">15.3</td>
+<td align="center">0.6</td>
+<td align="center">8.3</td>
+<td align="center">-13.1</td>
+</tr>
+<tr class="odd">
+<td align="center">December</td>
+<td align="center">-9.3</td>
+<td align="center">6.6</td>
+<td align="center">0.2</td>
+<td align="center">8</td>
+<td align="center">3.6</td>
+<td align="center">9.3</td>
+<td align="center">15.5</td>
+<td align="center">-0.7</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">February</td>
+<td align="center">NA</td>
+<td align="center">11</td>
+<td align="center">8.6</td>
+<td align="center">2.5</td>
+<td align="center">5.5</td>
+<td align="center">3.2</td>
+<td align="center">15.6</td>
+<td align="center">20.1</td>
+<td align="center">10.7</td>
+</tr>
+<tr class="odd">
+<td align="center">January</td>
+<td align="center">NA</td>
+<td align="center">-0.8</td>
+<td align="center">6.5</td>
+<td align="center">-0.8</td>
+<td align="center">11.2</td>
+<td align="center">1.8</td>
+<td align="center">15</td>
+<td align="center">19.6</td>
+<td align="center">-0.3</td>
+</tr>
+<tr class="even">
+<td align="center">July</td>
+<td align="center">11.5</td>
+<td align="center">7.6</td>
+<td align="center">4.2</td>
+<td align="center">3.7</td>
+<td align="center">-5.3</td>
+<td align="center">19.6</td>
+<td align="center">1.3</td>
+<td align="center">20.8</td>
+<td align="center">7.1</td>
+</tr>
+<tr class="odd">
+<td align="center">June</td>
+<td align="center">2.5</td>
+<td align="center">17.7</td>
+<td align="center">3.6</td>
+<td align="center">7.7</td>
+<td align="center">-6.2</td>
+<td align="center">16</td>
+<td align="center">10.2</td>
+<td align="center">16.2</td>
+<td align="center">15</td>
+</tr>
+<tr class="even">
+<td align="center">March</td>
+<td align="center">NA</td>
+<td align="center">15.8</td>
+<td align="center">7.2</td>
+<td align="center">9</td>
+<td align="center">1.6</td>
+<td align="center">7.3</td>
+<td align="center">18.4</td>
+<td align="center">9.6</td>
+<td align="center">7.6</td>
+</tr>
+<tr class="odd">
+<td align="center">May</td>
+<td align="center">NA</td>
+<td align="center">17.3</td>
+<td align="center">17.6</td>
+<td align="center">6.7</td>
+<td align="center">1.3</td>
+<td align="center">19.5</td>
+<td align="center">9</td>
+<td align="center">13.3</td>
+<td align="center">10.6</td>
+</tr>
+<tr class="even">
+<td align="center">November</td>
+<td align="center">-12.8</td>
+<td align="center">-3.3</td>
+<td align="center">-2.8</td>
+<td align="center">4.9</td>
+<td align="center">-0.3</td>
+<td align="center">13.1</td>
+<td align="center">15.1</td>
+<td align="center">3.8</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">October</td>
+<td align="center">-8.5</td>
+<td align="center">4.4</td>
+<td align="center">-5</td>
+<td align="center">5.7</td>
+<td align="center">6.9</td>
+<td align="center">8.2</td>
+<td align="center">7.2</td>
+<td align="center">3</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">September</td>
+<td align="center">-9.2</td>
+<td align="center">3.4</td>
+<td align="center">-0.1</td>
+<td align="center">5.2</td>
+<td align="center">4.4</td>
+<td align="center">14</td>
+<td align="center">5.8</td>
+<td align="center">20.2</td>
+<td align="center">-11.8</td>
+</tr>
+</tbody>
+</table>
+<p>This is a nice way to prepare the data for a human to view. February and December appear with various spellings, so I needed to fix them. There must be a more elegant way to do so. I haven’t bothered to rearrange the months, but that is something I should practice.</p>
+<p></br></p>
+<p>When experimenting with spread I discovered that tidyr::spread has a problem with duplicate values because it tries to condense rows as much as possible. One work around is group_by(column_with_duplicates) %&gt;% do(tibble::rowid_to_column(.)) %&gt;% .</p>
 </div>
 
 

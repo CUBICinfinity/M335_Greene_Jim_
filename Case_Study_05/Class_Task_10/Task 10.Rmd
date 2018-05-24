@@ -11,6 +11,7 @@ output:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
+library(pander)
 dart <- read_csv("https://raw.githubusercontent.com/byuistats/data/master/Dart_Expert_Dow_6month_anova/Dart_Expert_Dow_6month_anova.csv")
 
 # dart_rds <- read_rds(gzcon(url("https://github.com/byuistats/data/blob/master/Dart_Expert_Dow_6month_anova/Dart_Expert_Dow_6month_anova.RDS?raw=true")))
@@ -54,12 +55,19 @@ dart %>%
 
 </br>
 
-Spreading the data (if I needed to do that)
+Showing a table of returns for DJIA
 ```{r}
-dart %>%
-  group_by(value) %>% 
-  do(tibble::rowid_to_column(.)) %>% 
-  spread(key = year_end, value = month_end) %>% 
-  select(-rowid)
+dart$month_end <- gsub("Dec.", "December", dart$month_end)
+dart$month_end <- gsub("Decembermber", "December", dart$month_end)
+dart$month_end <- gsub("Febuary", "February", dart$month_end)
+
+filter(dart, variable == "DJIA") %>% 
+  spread(key = year_end, value = value) %>% 
+  select(-variable) %>% 
+  pander()
 ```
-Aparently tidyr::spread has a problem with duplicate values because it tries to condense rows as much as possible. The value column (Which I would rather call "return" and not "value". I could have used colnames(dart)[4] <- "return" to do that.) has just a couple duplicates. My code was the best solution I found based on reading about the problem online.
+This is a nice way to prepare the data for a human to view. February and December appear with various spellings, so I needed to fix them. There must be a more elegant way to do so. I haven't bothered to rearrange the months, but that is something I should practice.
+
+</br>
+
+When experimenting with spread I discovered that tidyr::spread has a problem with duplicate values because it tries to condense rows as much as possible. One work around is group_by(column_with_duplicates) %>% do(tibble::rowid_to_column(.)) %>% .

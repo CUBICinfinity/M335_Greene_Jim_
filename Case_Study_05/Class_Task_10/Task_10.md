@@ -63,31 +63,49 @@ dart %>%
 
 </br>
 
-Spreading the data (if I needed to do that)
+Showing a table of returns for DJIA
 
 ```r
-dart %>%
-  group_by(value) %>% 
-  do(tibble::rowid_to_column(.)) %>% 
-  spread(key = year_end, value = month_end) %>% 
-  select(-rowid)
+dart$month_end <- gsub("Dec.", "December", dart$month_end)
+dart$month_end <- gsub("Decembermber", "December", dart$month_end)
+dart$month_end <- gsub("Febuary", "February", dart$month_end)
+
+filter(dart, variable == "DJIA") %>% 
+  spread(key = year_end, value = value) %>% 
+  select(-variable) %>% 
+  pander()
 ```
 
-```
-## # A tibble: 300 x 11
-## # Groups:   value [223]
-##    variable value `1990`  `1991` `1992` `1993` `1994` `1995` `1996` `1997`
-##    <chr>    <dbl> <chr>   <chr>  <chr>  <chr>  <chr>  <chr>  <chr>  <chr> 
-##  1 DARTS    -43.0 <NA>    <NA>   <NA>   July   <NA>   <NA>   <NA>   <NA>  
-##  2 DARTS    -37.3 <NA>    Janua~ <NA>   <NA>   <NA>   <NA>   <NA>   <NA>  
-##  3 DARTS    -34.2 <NA>    <NA>   <NA>   <NA>   <NA>   <NA>   <NA>   <NA>  
-##  4 DARTS    -27.4 Novemb~ <NA>   <NA>   <NA>   <NA>   <NA>   <NA>   <NA>  
-##  5 DARTS    -23.2 <NA>    Novem~ <NA>   <NA>   <NA>   <NA>   <NA>   <NA>  
-##  6 DARTS    -22.5 Decemb~ <NA>   <NA>   <NA>   <NA>   <NA>   <NA>   <NA>  
-##  7 DARTS    -21.4 <NA>    <NA>   <NA>   Novem~ <NA>   <NA>   <NA>   <NA>  
-##  8 DARTS    -20.4 <NA>    <NA>   <NA>   <NA>   <NA>   <NA>   <NA>   <NA>  
-##  9 DARTS    -17.7 <NA>    <NA>   <NA>   Septe~ <NA>   <NA>   <NA>   <NA>  
-## 10 DARTS    -16.9 <NA>    <NA>   <NA>   <NA>   <NA>   <NA>   <NA>   March 
-## # ... with 290 more rows, and 1 more variable: `1998` <chr>
-```
-Aparently tidyr::spread has a problem with duplicate values because it tries to condense rows as much as possible. The value column (Which I would rather call "return" and not "value". I could have used colnames(dart)[4] <- "return" to do that.) has just a couple duplicates. My code was the best solution I found based on reading about the problem online.
+
+----------------------------------------------------------------------------
+ month_end   1990    1991   1992   1993   1994   1995   1996   1997   1998  
+----------- ------- ------ ------ ------ ------ ------ ------ ------ -------
+   April      NA     16.2   10.6   5.8    0.5    12.8   14.8   15.3   22.5  
+
+  August     -2.3    4.4    -0.3   7.3    1.5    15.3   0.6    8.3    -13.1 
+
+ December    -9.3    6.6    0.2     8     3.6    9.3    15.5   -0.7    NA   
+
+ February     NA      11    8.6    2.5    5.5    3.2    15.6   20.1   10.7  
+
+  January     NA     -0.8   6.5    -0.8   11.2   1.8     15    19.6   -0.3  
+
+   July      11.5    7.6    4.2    3.7    -5.3   19.6   1.3    20.8    7.1  
+
+   June       2.5    17.7   3.6    7.7    -6.2    16    10.2   16.2    15   
+
+   March      NA     15.8   7.2     9     1.6    7.3    18.4   9.6     7.6  
+
+    May       NA     17.3   17.6   6.7    1.3    19.5    9     13.3   10.6  
+
+ November    -12.8   -3.3   -2.8   4.9    -0.3   13.1   15.1   3.8     NA   
+
+  October    -8.5    4.4     -5    5.7    6.9    8.2    7.2     3      NA   
+
+ September   -9.2    3.4    -0.1   5.2    4.4     14    5.8    20.2   -11.8 
+----------------------------------------------------------------------------
+This is a nice way to prepare the data for a human to view. February and December appear with various spellings, so I needed to fix them. There must be a more elegant way to do so. I haven't bothered to rearrange the months, but that is something I should practice.
+
+</br>
+
+When experimenting with spread I discovered that tidyr::spread has a problem with duplicate values because it tries to condense rows as much as possible. One work around is group_by(column_with_duplicates) %>% do(tibble::rowid_to_column(.)) %>% .

@@ -132,3 +132,14 @@ who %>%
   select(-new, -iso2, -iso3) %>% 
   separate(sexage, c("sex", "age"), sep = 1)
   
+===~~~+++===~~~+++===~~~+++===
+Old version of code: useful for the future
+"Spreading the data (if I needed to)
+```{r}
+dart %>%
+  group_by(value) %>% 
+  do(tibble::rowid_to_column(.)) %>% 
+  spread(key = year_end, value = month_end) %>% 
+  select(-rowid)
+```
+Aparently tidyr::spread has a problem with duplicate values because it tries to condense rows as much as possible. The value column (Which I would rather call "return" and not "value". I could have used colnames(dart)[4] <- "return" to do that.) has just a couple duplicates. My code was the best solution I found based on reading about the problem online."
