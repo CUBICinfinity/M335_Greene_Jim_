@@ -14,6 +14,9 @@ output:
 
 ```r
 dart_rds <- read_rds(gzcon(url("https://github.com/byuistats/data/blob/master/Dart_Expert_Dow_6month_anova/Dart_Expert_Dow_6month_anova.RDS?raw=true")))
+# dart_temp <- tempfile(pattern = "dart", tmpdir = tempdir(), fileext = "rds")
+# write_rds(cart_rds, dart_temp)
+# dart_rds <- read_rds(dart_temp)
 
 dart_temp <- tempfile(pattern = "dart", tmpdir = tempdir(), fileext = "xlsx")
 download("https://github.com/byuistats/data/blob/master/Dart_Expert_Dow_6month_anova/Dart_Expert_Dow_6month_anova.xlsx?raw=true", dart_temp, mode = "wb")

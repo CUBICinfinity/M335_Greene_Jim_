@@ -1,4 +1,4 @@
-read.csv parses a csv file and converts it into a data frame
+read.csv parses a csv file into a data frame
 same as read_csv, which is a simpler version of read_delim
 
 ----------

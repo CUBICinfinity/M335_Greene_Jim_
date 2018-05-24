@@ -61,7 +61,7 @@ The article on 538 shows that the types of gun related deaths are varied. About 
 
 ## Investigating Time of Year
 
-```{r}
+```{r, fig.width = 12}
 usa %>% 
   ggplot(aes(month, fill = as.factor(year))) +
   geom_bar() +
@@ -73,7 +73,7 @@ usa %>%
 </br>February has the least gun deaths and this is due to more than it being a shorter month.
 
 I'll break this up by cause of death.
-```{r}
+```{r, fig.width = 10}
 filter(usa, intent != "NA" & intent != "Undetermined") %>% 
   ggplot(aes(month, fill = education)) +
   geom_bar() +
