@@ -1,4 +1,4 @@
-Code,"Continent, Region, Country",century,decade,year,height_cm,year_decade,height_in
+code,country,century,decade,year,height_cm,year_decade,height_in
 56,Belgium,18,1,0,163.1,1810,64.21247
 280,Federal Republic of Germany (until 1990),18,1,0,167.8,1810,66.06286
 250,France,18,1,0,163.9,1810,64.52743
