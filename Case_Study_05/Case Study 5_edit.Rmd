@@ -95,11 +95,14 @@ The World data set shows that people were getting taller from 1860 to 1980. It c
 filter(all, birth_year != "NA") %>% 
   ggplot(aes(birth_year, height_in)) +
   theme_bw() +
-  geom_point() +
-  facet_grid( ~ (birth_year%/%100 * 100), scales = "free_x") +
+  geom_violin(fill = "#636383") +
+  facet_grid( ~ (birth_year %/% 100 * 100), scales = "free_x") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
   labs(x = "Year", y = "Male Heights in Inches")
 ```
 </br>
 In this plot, all of the ones from the 18th century are from the Bavarian and Palatinate soldiers dataset. Also, the only ones in the 20th century come from the Wisconsin data set. For these reasons, the data may not acurately represent the historical heights for the world.
 
-Just going off of this plot, the three centuries aren't much different from each other.
+Just going off of this plot, the three centuries aren't much different from each other, though the 18th century appears to have had taller men.

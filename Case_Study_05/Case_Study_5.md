@@ -42,7 +42,7 @@ bav <- read_dta("https://byuistats.github.io/M335/data/heights/germanprison.dta"
 
 
 # soldiers, see b6090.rtf
-sol <- as_tibble(read.dbf(file.choose())) %>% 
+sol <- as_tibble(read.dbf("C:\\Users\\Jim\\Desktop\\Math 335\\M335_Greene_Jim_\\Case_Study_05\\B6090.DBF")) %>% 
   mutate(height_in = (F * 12) + Z + ((V + (S / 3)) / 4) ) %>% 
   transmute(birth_year = GEBJ, height_in = height_in, height_cm = CMETER, study_id = as.character(RECNO))
 
