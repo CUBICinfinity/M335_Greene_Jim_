@@ -1,0 +1,33 @@
+---
+title: "TASK 12"
+author: "Jim Greene"
+date: "May 31, 2018"
+output: 
+  html_document:
+    theme: default
+    keep_md: true
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(stringr)
+```
+
+
+```{r, eval = F, include = F}
+read_lines("https://byuistats.github.io/M335/data/randomletters.txt") %>% 
+  str_extract_all('.1700')# %>% 
+  # str_c(sep = "split") %>% 
+  # str_extract_all('split')
+```
+
+```{r}
+text <- read_lines("https://byuistats.github.io/M335/data/randomletters.txt")
+strsplit(text, split = "")[[1]][seq(0, 58000, by = 1700)]
+```
+
+
+```{r, eval = F, include = F}
+read_lines("https://byuistats.github.io/M335/data/randomletters_wnumbers.txt")
+```

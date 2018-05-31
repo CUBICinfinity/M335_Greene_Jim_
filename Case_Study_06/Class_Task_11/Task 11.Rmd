@@ -15,14 +15,15 @@ library(Lahman)
 library(blscrapeR)
 ```
 
-
+ 
 ```{r, warning = F}
 Master %>% 
   inner_join(CollegePlaying, by = "playerID") %>% 
   inner_join(filter(Schools, state == "UT"), by = "schoolID") %>% 
   left_join(Salaries, by = "playerID") %>% 
   mutate(byu = schoolID == "byu") %>% 
-  #mutate(adj_sal = inflation_adjust(2017, yearID)) %>% 
+  as.tibble() %>% 
+  left_join(as.tibble(inflation_adjust(2017)), by = c("yearID" = "year")) %>% 
   ggplot(aes(byu, salary)) +
   theme_light() +
   geom_boxplot(fill = "#82b393") +

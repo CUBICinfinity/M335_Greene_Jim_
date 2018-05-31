@@ -7,3 +7,6 @@ by = c("a" = "b") is nice.
 
 use anti_join often to check fo errors.
 
+Truthful Art 4 notes
+
+
