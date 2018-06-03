@@ -81,7 +81,7 @@ wld %>%
   ggplot(mapping = aes(x = year_decade, y = height_in)) +
   theme_bw() +
   geom_smooth(color = "#556655") +
-  geom_point(data = filter(wld, country != "Germany"), color = "#666666") +
+  geom_boxplot(data = filter(wld, country != "Germany"), mapping = aes(year_decade, height_in), fill = "#666666") +
   geom_point(data = filter(wld, country == "Germany"), color = "#FF6600", size = 2) +
   scale_x_continuous(breaks = seq(1800, 2010, by = 20)) +
   labs(title = "Male Heights by Decade", subtitle = "(Germany highlighted)", x = "Decade", y = "Height in Inches")

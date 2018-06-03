@@ -28,6 +28,12 @@ strsplit(text, split = "")[[1]][seq(0, 58000, by = 1700)]
 ```
 
 
-```{r, eval = F, include = F}
-read_lines("https://byuistats.github.io/M335/data/randomletters_wnumbers.txt")
+```{r}
+read_lines("https://byuistats.github.io/M335/data/randomletters_wnumbers.txt") %>% 
+  
+  unlist() 
+parse_number()
+ 
+
 ```
+

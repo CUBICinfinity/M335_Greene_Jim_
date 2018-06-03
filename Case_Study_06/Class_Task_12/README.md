@@ -54,7 +54,7 @@ bana(na)+
 {,m}: at most m
 {n,m}: between n and m *Uses the longest sting possible. if you add ? after the } you get the shortest selections.
 
-\\n back reference:
+\\n backreference:
 str_view(fruit, "(..)\\1", match = TRUE)
 
 ----
