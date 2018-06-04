@@ -46,7 +46,7 @@ de_comida <- edificios %>%
                     ifelse(ProjectTitle %in% quick_service_type | ProjectTitle %in% quick_service_names, "Quick Service Restaurant", 
                     ifelse(SqFt >= 4000 , "Full Service Restaurant", 
                     ifelse(SqFt < 4000, "Quick Service Restaurant", "Unknown")))))))
-# I did not know how to define "NEW" constructions, when all are from 2008 or 2009.
+# I did not know how to define "NEW" constructions; all are from 2008 or 2009.
 
 edificios <- edificios %>% 
   filter(Type != "Food_Beverage_Service") %>% 
@@ -58,15 +58,18 @@ edificios <- edificios %>%
 
 How did full-service restaurant construction compare to quick service restaurant construction across county and years?
 
-```{r}
+```{r, fig.width = 8.5}
 de_comida %>% 
   filter(SubGroup %in% c("Full Service Restaurant", "Quick Service Restaurant")) %>%
-  ggplot(aes(SubGroup, fill = Year)) +
+  # mutate_at(c("SubGroup", "Year"), as.factor) %>% 
+  # complete(SubGroup,Year) %>%
+  ggplot(aes(Year, fill = SubGroup)) +
   theme_bw() +
-  geom_bar(position = "stack") +
+  geom_bar(position = "dodge") +
+  # stat_count(geom = "col", position = "dodge") +
   facet_wrap( ~ AreaName, ncol = 5) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(x = "", y = "Count", title = "Restaurant Buildings Constructed in Idaho, 2008-09")
+  # theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "", y = "Count", title = "Restaurant Buildings Constructed in Idaho, 2008-09", fill = "Type")
 ```
 
 It should be noted that Ada county has the highest population. Quick service types were constructed faster than full service types except for in Twin Falls County.

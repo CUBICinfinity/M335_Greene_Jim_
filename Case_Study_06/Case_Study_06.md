@@ -48,7 +48,7 @@ de_comida <- edificios %>%
                     ifelse(ProjectTitle %in% quick_service_type | ProjectTitle %in% quick_service_names, "Quick Service Restaurant", 
                     ifelse(SqFt >= 4000 , "Full Service Restaurant", 
                     ifelse(SqFt < 4000, "Quick Service Restaurant", "Unknown")))))))
-# I did not know how to define "NEW" constructions, when all are from 2008 or 2009.
+# I did not know how to define "NEW" constructions; all are from 2008 or 2009.
 
 edificios <- edificios %>% 
   filter(Type != "Food_Beverage_Service") %>% 
@@ -64,12 +64,15 @@ How did full-service restaurant construction compare to quick service restaurant
 ```r
 de_comida %>% 
   filter(SubGroup %in% c("Full Service Restaurant", "Quick Service Restaurant")) %>%
-  ggplot(aes(SubGroup, fill = Year)) +
+  # mutate_at(c("SubGroup", "Year"), as.factor) %>% 
+  # complete(SubGroup,Year) %>%
+  ggplot(aes(Year, fill = SubGroup)) +
   theme_bw() +
-  geom_bar(position = "stack") +
+  geom_bar(position = "dodge") +
+  # stat_count(geom = "col", position = "dodge") +
   facet_wrap( ~ AreaName, ncol = 5) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(x = "", y = "Count", title = "Restaurant Buildings Constructed in Idaho, 2008-09")
+  # theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "", y = "Count", title = "Restaurant Buildings Constructed in Idaho, 2008-09", fill = "Type")
 ```
 
 ![](Case_Study_06_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
@@ -109,8 +112,8 @@ edificios %>%
   datatable()
 ```
 
-<!--html_preserve--><div id="htmlwidget-47116a745b7c48848000" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-47116a745b7c48848000">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],["Ada County","Ada County","Kootenai County","Twin Falls County","Bonneville County","Blaine County","Elmore County","Canyon County","Bannock County","Kootenai County","Canyon County","Bonner County","Bannock County","Blaine County","Nez Perce County","Twin Falls County"],["2008","2009","2008","2009","2008","2009","2009","2008","2008","2009","2009","2008","2009","2008","2009","2008"],[10577000,4829000,4014000,1613000,1414000,1360000,1284000,1235000,1205000,966000,580000,579000,500000,475000,168000,136000]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>AreaName<\/th>\n      <th>Year<\/th>\n      <th>WeightedTotal<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":3},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-d8cc8bc0ef62a44d07dd" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d8cc8bc0ef62a44d07dd">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],["Ada County","Ada County","Kootenai County","Twin Falls County","Bonneville County","Blaine County","Elmore County","Canyon County","Bannock County","Kootenai County","Canyon County","Bonner County","Bannock County","Blaine County","Nez Perce County","Twin Falls County"],["2008","2009","2008","2009","2008","2009","2009","2008","2008","2009","2009","2008","2009","2008","2009","2008"],[10577000,4829000,4014000,1613000,1414000,1360000,1284000,1235000,1205000,966000,580000,579000,500000,475000,168000,136000]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>AreaName<\/th>\n      <th>Year<\/th>\n      <th>WeightedTotal<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":3},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 
 </br>
