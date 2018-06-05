@@ -68,6 +68,7 @@ de_comida %>%
   geom_bar(position = "dodge") +
   # stat_count(geom = "col", position = "dodge") +
   facet_wrap( ~ AreaName, ncol = 5) +
+  # scale_x_discrete(drop = FALSE) +
   # theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(x = "", y = "Count", title = "Restaurant Buildings Constructed in Idaho, 2008-09", fill = "Type")
 ```
