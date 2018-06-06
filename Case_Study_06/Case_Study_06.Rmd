@@ -58,20 +58,42 @@ edificios <- edificios %>%
 
 How did full-service restaurant construction compare to quick service restaurant construction across county and years?
 
-```{r, fig.width = 8.5}
+```{r, fig.width = 8.5, eval = F}
+#experimental chunk
+
+#(test <- 
 de_comida %>% 
   filter(SubGroup %in% c("Full Service Restaurant", "Quick Service Restaurant")) %>%
   # mutate_at(c("SubGroup", "Year"), as.factor) %>% 
-  # complete(SubGroup,Year) %>%
-  ggplot(aes(Year, fill = SubGroup)) +
+  # complete(Year, AreaName, SubGroup) %>% # This would work if I wasn't doing counts.
+  # group_by(SubGroup, Year, AreaName) %>% 
+  # mutate(count = n()) %>% # proposed fix, unfortunately this is still counting the NAs.
+  ggplot(aes(Year, fill = SubGroup)) + #, y = count
   theme_bw() +
-  geom_bar(position = "dodge") +
+  geom_bar(position = "dodge") + #, stat = "identity"
   # stat_count(geom = "col", position = "dodge") +
   facet_wrap( ~ AreaName, ncol = 5) +
   # scale_x_discrete(drop = FALSE) +
   # theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(x = "", y = "Count", title = "Restaurant Buildings Constructed in Idaho, 2008-09", fill = "Type")
 ```
+
+```{r, fig.width = 8.5}
+de_comida %>% 
+  filter(SubGroup %in% c("Full Service Restaurant", "Quick Service Restaurant")) %>%
+  count(SubGroup, Year, AreaName) %>% 
+  complete(SubGroup, Year, AreaName, fill = list(n = 0)) %>%
+  ggplot(aes(Year, n, fill = SubGroup)) +
+  theme_bw() +
+  geom_bar(position = "dodge", stat = "identity") +
+  facet_wrap( ~ AreaName, ncol = 5) +
+  labs(x = "", y = "Count", title = "Restaurant Buildings Constructed in Idaho, 2008-09", fill = "Type")
+```
+
+```{r}
+# TO DO: Solve with Bro Hathaway's method, https://byuistats.github.io/M335/restaurants_idaho.html
+```
+
 
 It should be noted that Ada county has the highest population. Quick service types were constructed faster than full service types except for in Twin Falls County.
 

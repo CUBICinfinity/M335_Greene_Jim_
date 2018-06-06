@@ -62,13 +62,18 @@ How did full-service restaurant construction compare to quick service restaurant
 
 
 ```r
+#experimental chunk
+
+#(test <- 
 de_comida %>% 
   filter(SubGroup %in% c("Full Service Restaurant", "Quick Service Restaurant")) %>%
   # mutate_at(c("SubGroup", "Year"), as.factor) %>% 
-  # complete(SubGroup,Year) %>%
-  ggplot(aes(Year, fill = SubGroup)) +
+  # complete(Year, AreaName, SubGroup) %>% # This would work if I wasn't doing counts.
+  # group_by(SubGroup, Year, AreaName) %>% 
+  # mutate(count = n()) %>% # proposed fix, unfortunately this is still counting the NAs.
+  ggplot(aes(Year, fill = SubGroup)) + #, y = count
   theme_bw() +
-  geom_bar(position = "dodge") +
+  geom_bar(position = "dodge") + #, stat = "identity"
   # stat_count(geom = "col", position = "dodge") +
   facet_wrap( ~ AreaName, ncol = 5) +
   # scale_x_discrete(drop = FALSE) +
@@ -76,7 +81,26 @@ de_comida %>%
   labs(x = "", y = "Count", title = "Restaurant Buildings Constructed in Idaho, 2008-09", fill = "Type")
 ```
 
-![](Case_Study_06_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+
+```r
+de_comida %>% 
+  filter(SubGroup %in% c("Full Service Restaurant", "Quick Service Restaurant")) %>%
+  count(SubGroup, Year, AreaName) %>% 
+  complete(SubGroup, Year, AreaName, fill = list(n = 0)) %>%
+  ggplot(aes(Year, n, fill = SubGroup)) +
+  theme_bw() +
+  geom_bar(position = "dodge", stat = "identity") +
+  facet_wrap( ~ AreaName, ncol = 5) +
+  labs(x = "", y = "Count", title = "Restaurant Buildings Constructed in Idaho, 2008-09", fill = "Type")
+```
+
+![](Case_Study_06_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+
+```r
+# TO DO: Solve with Bro Hathaway's method, https://byuistats.github.io/M335/restaurants_idaho.html
+```
+
 
 It should be noted that Ada county has the highest population. Quick service types were constructed faster than full service types except for in Twin Falls County.
 
@@ -95,7 +119,7 @@ edificios %>%
   labs(x = "", y = "Value", title = "Commercial Buildings Constructed in Idaho, 2008-2009")
 ```
 
-![](Case_Study_06_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](Case_Study_06_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 </br>
 
@@ -113,8 +137,8 @@ edificios %>%
   datatable()
 ```
 
-<!--html_preserve--><div id="htmlwidget-bd673aaba0435bfa8f93" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-bd673aaba0435bfa8f93">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],["Ada County","Ada County","Kootenai County","Twin Falls County","Bonneville County","Blaine County","Elmore County","Canyon County","Bannock County","Kootenai County","Canyon County","Bonner County","Bannock County","Blaine County","Nez Perce County","Twin Falls County"],["2008","2009","2008","2009","2008","2009","2009","2008","2008","2009","2009","2008","2009","2008","2009","2008"],[10577000,4829000,4014000,1613000,1414000,1360000,1284000,1235000,1205000,966000,580000,579000,500000,475000,168000,136000]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>AreaName<\/th>\n      <th>Year<\/th>\n      <th>WeightedTotal<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":3},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-7773e905d04fa709360d" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7773e905d04fa709360d">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],["Ada County","Ada County","Kootenai County","Twin Falls County","Bonneville County","Blaine County","Elmore County","Canyon County","Bannock County","Kootenai County","Canyon County","Bonner County","Bannock County","Blaine County","Nez Perce County","Twin Falls County"],["2008","2009","2008","2009","2008","2009","2009","2008","2008","2009","2009","2008","2009","2008","2009","2008"],[10577000,4829000,4014000,1613000,1414000,1360000,1284000,1235000,1205000,966000,580000,579000,500000,475000,168000,136000]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>AreaName<\/th>\n      <th>Year<\/th>\n      <th>WeightedTotal<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":3},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 
 </br>
@@ -133,5 +157,5 @@ edificios %>%
   labs(x = "", y = "Value", title = "Commercial Buildings Constructed in Ada County, 2008-2009")
 ```
 
-![](Case_Study_06_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](Case_Study_06_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
