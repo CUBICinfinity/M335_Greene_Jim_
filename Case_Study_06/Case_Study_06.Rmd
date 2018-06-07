@@ -90,9 +90,7 @@ de_comida %>%
   labs(x = "", y = "Count", title = "Restaurant Buildings Constructed in Idaho, 2008-09", fill = "Type")
 ```
 
-```{r}
-# TO DO: Solve with Bro Hathaway's method, https://byuistats.github.io/M335/restaurants_idaho.html
-```
+
 
 
 It should be noted that Ada county has the highest population. Quick service types were constructed faster than full service types except for in Twin Falls County.
