@@ -98,11 +98,9 @@ for (i in 1:count_verses(books, "BoM")) {
 ```r
 as.tibble(verse_lengths) %>% 
   ggplot(aes(value)) +
-  geom_histogram()
-```
-
-```
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+  geom_histogram(binwidth = 1) +
+  scale_x_continuous(breaks = seq(0, 150, by = 10)) +
+  labs(x = "words in verse")
 ```
 
 ![](Task_14,_Jesus_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
