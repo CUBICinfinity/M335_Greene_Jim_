@@ -22,7 +22,7 @@ names <- import("https://byuistats.github.io/M335/data/BoM_SaviorNames.rds")
 # 
 # instead of rep() suggested str_c("__", i, "__")
 
-names <- names %>% arrange(desc(nchar))
+names <- names %>% arrange(desc(words))
 
 observations <- verse_breaks %>% 
   str_split("__[0-9]+__") %in% unlist()
