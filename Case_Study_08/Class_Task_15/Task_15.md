@@ -1,0 +1,109 @@
+---
+title: "Task 15"
+author: "Jim Greene"
+date: "June 12, 2018"
+output: 
+  html_document:
+    keep_md: true
+    theme: cerulean
+    code_folding: hide
+    
+---
+
+
+
+
+```r
+rxe <- riem_measures(station = "RXE", date_start = "2015-06-01", date_end = "2017-07-01")
+write_csv(rxe, "data/rxe.csv")
+write_csv(rxe[2:5], "data/rxe_short.csv")
+```
+
+
+```r
+#rxe <- read_csv("data/rxe_short.csv")
+setwd("../")
+rxe <- read_csv("../data/rxe_short.csv")
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   valid = col_datetime(format = ""),
+##   lon = col_double(),
+##   lat = col_double(),
+##   tmpf = col_double()
+## )
+```
+
+
+```r
+rxe <- rxe %>% 
+  ungroup() %>% 
+  mutate(week_day = wday(valid), hour = hour(valid), week_day_name = wday(valid, label = T), year = year(valid), month = month(valid)) %>% 
+  group_by(week_day_name, hour) %>% 
+  mutate(max = max(tmpf, na.rm = T), avg = mean(tmpf, na.rm = T), low = min(tmpf, na.rm = T))
+```
+
+
+```r
+rxe %>%
+  filter(month == 6) %>% 
+  ggplot(aes(week_day_name, max, color = hour), size = 2) +
+  geom_point()
+```
+
+![](Task_15_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
+The hottest day was a Monday.
+
+
+```r
+rxe %>% 
+  filter(hour == 2 & month == 6) %>% 
+  ggplot(aes(week_day_name, 1, fill = low)) +
+  geom_bar(stat = "identity") +
+  coord_polar(theta = "x") + 
+  labs(x = "Day", fill = "Min Tempurature", title = "Lowest tempuratures for June, 2015-2017") +
+  scale_fill_gradient("Min Tempurature", low = "#0055FF", high = "#662200")
+```
+
+![](Task_15_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
+I was trying to experiment with polor coordinates here.
+
+
+```r
+rxe %>% 
+  filter(hour == 2 & month == 6) %>% 
+  ggplot(aes(week_day_name, low, color = low)) +
+  geom_point()
+```
+
+![](Task_15_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+
+```r
+#+  geom_text(label = stat, stat = "identity")
+```
+
+The record Friday is slightly lower.
+
+
+
+```r
+rxe %>% 
+  filter(hour == 2) %>% 
+  mutate(seq_day = 1:nrow(filter(rxe, hour == 2))) %>% 
+  ggplot(aes(week_day_name, seq_day)) +
+  #facet_wrap(~ year, nrow = 1) +
+  geom_contour(aes(z = tmpf))
+```
+
+
+```r
+rxe %>% 
+  ggplot(aes(hour, week_day_name, color = max)) +
+  geom_bin2d(stat = color)
+  #coord_polar(theta = "x")
+```
+
