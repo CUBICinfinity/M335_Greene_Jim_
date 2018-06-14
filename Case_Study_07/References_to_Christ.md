@@ -104,7 +104,7 @@ references %>%
   guides(color = guide_legend(nrow = 2))
 ```
 
-![](Case_Study_7_-_Names_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](References_to_Christ_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 </br>
 
@@ -123,7 +123,7 @@ references %>%
   guides(color = guide_legend(nrow = 2))
 ```
 
-![](Case_Study_7_-_Names_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](References_to_Christ_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 
 
@@ -156,7 +156,7 @@ references_2 %>%
   scale_size_continuous(range = c(1, 3))
 ```
 
-![](Case_Study_7_-_Names_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](References_to_Christ_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 
 
@@ -178,7 +178,7 @@ references_2 %>%
   guides(color = guide_legend(nrow = 2))
 ```
 
-![](Case_Study_7_-_Names_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](References_to_Christ_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 
 

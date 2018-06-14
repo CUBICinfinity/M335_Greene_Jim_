@@ -53,7 +53,19 @@ rxe %>%
   geom_point()
 ```
 
-![](Task_15_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
+```r
+rxe %>% 
+  filter(month == 6) %>% 
+  ggplot(aes(x = hour, y = week_day_name, fill = max)) +
+  geom_raster() +
+  scale_x_continuous(breaks = seq(0, 23, by = 1)) +
+  facet_wrap( ~ year, ncol = 1, scales = "free") +
+  labs(x = "Hour", y = "", fill = "Max Temp (F)") +
+  scale_fill_gradient2(low = "#778844", mid = "#88DD00", high = "#FF0000", midpoint = 70)
+```
+
+![](Task_15_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 The hottest day was a Monday.
 
@@ -68,7 +80,7 @@ rxe %>%
   scale_fill_gradient("Min Tempurature", low = "#0055FF", high = "#662200")
 ```
 
-![](Task_15_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](Task_15_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 I was trying to experiment with polor coordinates here.
 
@@ -77,16 +89,19 @@ I was trying to experiment with polor coordinates here.
 rxe %>% 
   filter(hour == 2 & month == 6) %>% 
   ggplot(aes(week_day_name, low, color = low)) +
-  geom_point()
+  geom_point() +
+  geom_line(group = "low")
 ```
 
-![](Task_15_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](Task_15_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 ```r
 #+  geom_text(label = stat, stat = "identity")
 ```
 
 The record Friday is slightly lower.
+
+
 
 
 
