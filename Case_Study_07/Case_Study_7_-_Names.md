@@ -1,7 +1,7 @@
 ---
-title: "Case Study 7 - Savior References"
+title: "References to the Savior in The Book of Mormon"
 author: "Jim Greene"
-date: "June 8, 2018"
+date: "June 13, 2018"
 output:
   html_document:
     keep_md: true
@@ -10,6 +10,8 @@ output:
 ---
 
 
+
+I downloaded the entire standard works and parsed the text of The Book of Mormon for uses of the names of Jesus Christ.
 
 
 ```r
@@ -138,7 +140,7 @@ references_2 %>%
   theme_bw() +
   geom_point(aes(), alpha = 0.75) +
   scale_color_manual(values = my_colors) +
-  labs(x = "Total words before reference", y = "Number of words between each reference (log 10 scale)", title = "References to Jesus Christ in the Book of Mormon", color = "", size = "Number of words in reference") +
+  labs(x = "Total number of words before each reference", y = "Number of words between each reference (log 10 scale)", title = "References to Jesus Christ in the Book of Mormon", color = "", size = "Number of words in reference") +
   scale_y_log10(breaks = c(0,1,2,3,5,10,15,30,50,100,150,300,500,1000,2000,3000,4000)) +
   theme(legend.position = "bottom", panel.grid.minor = element_blank(), legend.text = element_text(size = 12)) +
   scale_x_continuous(labels = comma, breaks = seq(0, 300000, by = 25000)) +
@@ -156,7 +158,7 @@ references_2 %>%
   theme_bw() +
   geom_point() +
   scale_color_manual(values = my_colors) +
-  labs(x = "Total words before reference", y = "Number of words between each reference", title = "References to Jesus Christ in the Book of Mormon", color = "", size = "Number of words in reference") +
+  labs(x = "Total number of words before each reference", y = "Number of words between each reference", title = "References to Jesus Christ in the Book of Mormon", color = "", size = "Number of words in reference") +
   scale_y_continuous(breaks = seq(0, 4000, by = 200)) +
   theme(legend.position = "bottom", panel.grid.minor = element_blank(), legend.text = element_text(size = 12)) +
   scale_x_continuous(breaks = c()) +
@@ -170,8 +172,9 @@ references_2 %>%
   theme_bw() +
   geom_point() +
   scale_color_manual(values = my_colors) +
-  labs(x = "Total words before reference", y = "Number of words between each reference", title = "References to Jesus Christ in the Book of Mormon", color = "", size = "Number of words in reference") +
+  labs(x = "Total number of words before each reference", y = "Number of words between each reference", title = "References to Jesus Christ in the Book of Mormon", color = "", size = "Number of words in reference") +
   scale_y_continuous(limits = c(0,300), breaks = seq(0, 300, by = 20)) +
+  scale_x_continuous(labels = comma, breaks = seq(0, 300000, by = 25000)) +
   theme(legend.position = "bottom", panel.grid.minor = element_blank(), legend.text = element_text(size = 12)) +
   guides(color = guide_legend(nrow = 2))
 ```
