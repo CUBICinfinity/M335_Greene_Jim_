@@ -121,6 +121,67 @@ This plot was created to get a better view of the individual observations. In th
 
 
 ```r
+references_2 <- references %>% left_join(names, by = "name")
+references_2 <- references_2 %>% mutate(cumulative_words = rep(space[1], length(space)))
+# references_2$space <- as.integer(references_2$space)
+# references_2$cumulative_words <- as.integer(references_2$cumulative_words)
+
+for (p in 2:length(references_2$cumulative_words)) {
+  references_2$cumulative_words[p] <- (references_2$space[p] + references_2$cumulative_words[p - 1] + references_2$words[p - 1])
+}
+```
+
+
+```r
+references_2 %>% 
+  ggplot(aes(x = cumulative_words, y = space, color = book, size = words)) + # size = (words)
+  theme_bw() +
+  geom_point(aes(), alpha = 0.75) +
+  scale_color_manual(values = my_colors) +
+  labs(x = "Total words before reference", y = "Number of words between each reference (log 10 scale)", title = "References to Jesus Christ in the Book of Mormon", color = "", size = "Number of words in reference") +
+  scale_y_log10(breaks = c(0,1,2,3,5,10,15,30,50,100,150,300,500,1000,2000,3000,4000)) +
+  theme(legend.position = "bottom", panel.grid.minor = element_blank(), legend.text = element_text(size = 12)) +
+  scale_x_continuous(labels = comma, breaks = seq(0, 300000, by = 25000)) +
+  guides(color = guide_legend(nrow = 2)) +
+  scale_size_continuous(range = c(1, 3))
+```
+
+![](Case_Study_7_-_Names_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+Realizing that the previous graphs are somewhat deceptive, I created this which shows the actual distance in words between each reference. I also show the length of each reference by changing the size of the points. As a result, this is much more of what the Book of Mormon actually looks like, at least in terms of references to Christ.
+
+
+```r
+references_2 %>% 
+  ggplot(aes(x = cumulative_words, y = space, color = book, alpha = 0.05)) + # size = (words)
+  theme_bw() +
+  geom_point() +
+  scale_color_manual(values = my_colors) +
+  labs(x = "Total words before reference", y = "Number of words between each reference", title = "References to Jesus Christ in the Book of Mormon", color = "", size = "Number of words in reference") +
+  scale_y_continuous(breaks = seq(0, 4000, by = 200)) +
+  theme(legend.position = "bottom", panel.grid.minor = element_blank(), legend.text = element_text(size = 12)) +
+  scale_x_continuous(breaks = c()) +
+  guides(color = guide_legend(nrow = 2))
+```
+
+
+```r
+references_2 %>% 
+  ggplot(aes(x = cumulative_words, y = space, color = book)) + # size = (words)
+  theme_bw() +
+  geom_point() +
+  scale_color_manual(values = my_colors) +
+  labs(x = "Total words before reference", y = "Number of words between each reference", title = "References to Jesus Christ in the Book of Mormon", color = "", size = "Number of words in reference") +
+  scale_y_continuous(limits = c(0,300), breaks = seq(0, 300, by = 20)) +
+  theme(legend.position = "bottom", panel.grid.minor = element_blank(), legend.text = element_text(size = 12)) +
+  guides(color = guide_legend(nrow = 2))
+```
+
+![](Case_Study_7_-_Names_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+This is a prototype graphic that zooms in on 0-300 instead of using a log scale. I received a lot of feedback from students who didn't like my log scale, but those with experience in data visualization have said that using my log scale is good.
+
+
+
+```r
 names %>% 
   arrange(words) %>% 
   select(name) %>%
