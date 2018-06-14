@@ -11,8 +11,9 @@ output:
 
 
 
-I downloaded the entire standard works and parsed the text of The Book of Mormon for uses of the names of Jesus Christ.
+</br>
 
+##### I downloaded the standard works and parsed the text of The Book of Mormon for uses of the names of Jesus Christ.
 
 ```r
 # When running this chunk alone, this line needs to be commented out
@@ -76,6 +77,9 @@ references <- references %>%
 references$book <- factor(references$book, levels = unique(references$book))
 ```
 
+</br>
+
+##### The Savior is mentioned over 4000 times in the Book of Mormon. Each point in the plot below represents the group of words between each reference; they are plotted in order from left to right. The outliers are what most stand out.
 
 ```r
 my_colors <- c("indianred","chocolate4","purple","#ff8800","mediumblue","#00d000","#bb0000","#229977","darkgoldenrod2","#cc33cc","olivedrab","#00cccc","darkmagenta","aquamarine3","#ee7539")
@@ -101,9 +105,10 @@ references %>%
 ```
 
 ![](Case_Study_7_-_Names_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
-The Savior is mentioned over 4000 times in the Book of Mormon. Each point represents the group of words between each reference; they are plotted in order from left to right. The outliers stand out in this plot, and are naturally distributed.
 
+</br>
 
+##### This plot was created to get a better view of the individual observations. In this plot it is easier to notice the pattern changes between stories and authors.
 
 ```r
 references %>% 
@@ -119,7 +124,7 @@ references %>%
 ```
 
 ![](Case_Study_7_-_Names_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
-This plot was created to get a better view of the individual observations. In this plot it is easier to see the shifts that occur between some of the books.
+
 
 
 ```r
@@ -133,38 +138,32 @@ for (p in 2:length(references_2$cumulative_words)) {
 }
 ```
 
+</br>
+
+##### Realizing that the previous graphs are somewhat deceptive, I created this which shows the actual distance in words between each reference. I also show the length of each reference by changing the size of the points. As a result, this is much more what the Book of Mormon actually looks like, at least in terms of references to Christ.
 
 ```r
 references_2 %>% 
-  ggplot(aes(x = cumulative_words, y = space, color = book, size = words)) + # size = (words)
+  ggplot(aes(x = cumulative_words, y = space, color = book, size = words)) +
   theme_bw() +
   geom_point(aes(), alpha = 0.75) +
   scale_color_manual(values = my_colors) +
-  labs(x = "Total number of words before each reference", y = "Number of words between each reference (log 10 scale)", title = "References to Jesus Christ in the Book of Mormon", color = "", size = "Number of words in reference") +
+  labs(x = "\nTotal number of words before each name", y = "Number of words between each reference (log 10 scale)", title = "References to Jesus Christ in the Book of Mormon", color = "", size = "Number of words in name") +
   scale_y_log10(breaks = c(0,1,2,3,5,10,15,30,50,100,150,300,500,1000,2000,3000,4000)) +
-  theme(legend.position = "bottom", panel.grid.minor = element_blank(), legend.text = element_text(size = 12)) +
-  scale_x_continuous(labels = comma, breaks = seq(0, 300000, by = 25000)) +
-  guides(color = guide_legend(nrow = 2)) +
+  theme(legend.position = "bottom", legend.box = "vertical", panel.grid.minor = element_blank(), legend.text = element_text(size = 12)) +
+  scale_x_continuous(position = "top", labels = comma, breaks = seq(0, 300000, by = 25000)) +
+  guides(color = guide_legend(nrow = 2, order = 1), size = guide_legend(order = 2)) +
   scale_size_continuous(range = c(1, 3))
 ```
 
 ![](Case_Study_7_-_Names_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
-Realizing that the previous graphs are somewhat deceptive, I created this which shows the actual distance in words between each reference. I also show the length of each reference by changing the size of the points. As a result, this is much more of what the Book of Mormon actually looks like, at least in terms of references to Christ.
 
 
-```r
-references_2 %>% 
-  ggplot(aes(x = cumulative_words, y = space, color = book, alpha = 0.05)) + # size = (words)
-  theme_bw() +
-  geom_point() +
-  scale_color_manual(values = my_colors) +
-  labs(x = "Total number of words before each reference", y = "Number of words between each reference", title = "References to Jesus Christ in the Book of Mormon", color = "", size = "Number of words in reference") +
-  scale_y_continuous(breaks = seq(0, 4000, by = 200)) +
-  theme(legend.position = "bottom", panel.grid.minor = element_blank(), legend.text = element_text(size = 12)) +
-  scale_x_continuous(breaks = c()) +
-  guides(color = guide_legend(nrow = 2))
-```
 
+
+</br>
+
+##### This was a prototype graphic that zooms in on the 0-300 range, instead of using a log scale. I had received a lot of feedback from students who didn't like the log scale, but those with experience in data visualization stated since that my log scale is good.
 
 ```r
 references_2 %>% 
@@ -172,7 +171,7 @@ references_2 %>%
   theme_bw() +
   geom_point() +
   scale_color_manual(values = my_colors) +
-  labs(x = "Total number of words before each reference", y = "Number of words between each reference", title = "References to Jesus Christ in the Book of Mormon", color = "", size = "Number of words in reference") +
+  labs(x = "Total number of words before each reference", y = "Number of words between each name", title = "References to Jesus Christ in the Book of Mormon", color = "", size = "Number of words in name") +
   scale_y_continuous(limits = c(0,300), breaks = seq(0, 300, by = 20)) +
   scale_x_continuous(labels = comma, breaks = seq(0, 300000, by = 25000)) +
   theme(legend.position = "bottom", panel.grid.minor = element_blank(), legend.text = element_text(size = 12)) +
@@ -180,7 +179,7 @@ references_2 %>%
 ```
 
 ![](Case_Study_7_-_Names_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
-This is a prototype graphic that zooms in on 0-300 instead of using a log scale. I received a lot of feedback from students who didn't like my log scale, but those with experience in data visualization have said that using my log scale is good.
+
 
 
 
@@ -188,12 +187,12 @@ This is a prototype graphic that zooms in on 0-300 instead of using a log scale.
 names %>% 
   arrange(words) %>% 
   select(name) %>%
-  kable(caption = "Below are the names included in this search:", row.names = 1:nrow(names))
+  kable(caption = "Here are the names that were included in the search:", row.names = 1:nrow(names))
 ```
 
 
 
-Table: Below are the names included in this search:
+Table: Here are the names that were included in the search:
 
       name                                                       
 ----  -----------------------------------------------------------
