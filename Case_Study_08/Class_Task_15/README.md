@@ -79,9 +79,13 @@ intervals are for spans in human units.
 -------
 
 r takes in "America/Detroit" and “Pacific/Auckland”
+
 OlsonNames()
+
+Sys.timezone()
+
 see http://www.iana.org/time-zones to read stories
 
 
-Sys.timezone()
+
 

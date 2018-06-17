@@ -17,6 +17,8 @@ library(scales)
 ```
 
 ```{r, message = F}
+# I need to adjust the time zone.
+
 # carwash data
 wash <- read_csv("https://byuistats.github.io/M335/data/carwash.csv") %>% mutate(hour = ceiling_date(time, "hours")) %>% select(hour, 4)
 
