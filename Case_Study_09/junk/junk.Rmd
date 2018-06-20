@@ -1,0 +1,11 @@
+---
+title: "Untitled"
+author: "Jim Greene"
+date: "June 19, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(DT)
+datatable(iris)
+```
