@@ -24,16 +24,14 @@ read_lines("https://byuistats.github.io/M335/data/randomletters.txt") %>%
 
 ```{r}
 text <- read_lines("https://byuistats.github.io/M335/data/randomletters.txt")
-strsplit(text, split = "")[[1]][seq(0, 58000, by = 1700)]
+strsplit(text, split = "")[[1]][c(1, seq(0, 58000, by = 1700))]
 ```
 
 
 ```{r}
-read_lines("https://byuistats.github.io/M335/data/randomletters_wnumbers.txt") %>% 
-  
-  unlist() 
-parse_number()
- 
-
+read_lines("https://byuistats.github.io/M335/data/randomletters_wnumbers.txt") %>%
+  str_extract_all('[0123456789]+') %>% 
+  unlist() %>% 
+  plyr::mapvalues(., from = 1:26, to = letters)
 ```
 

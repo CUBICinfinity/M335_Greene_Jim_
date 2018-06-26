@@ -1,0 +1,12 @@
+name: class_task_18_-_kroger_stocks
+title: Class Task 18 - Kroger Stocks
+username: cubicinf
+account: cubicinf
+server: shiny.byui.edu
+hostUrl: https://shiny.byui.edu/__api__
+appId: 275
+bundleId: 461
+url: https://shiny.byui.edu/content/275/
+when: 1529614785.50289
+asMultiple: FALSE
+asStatic: TRUE

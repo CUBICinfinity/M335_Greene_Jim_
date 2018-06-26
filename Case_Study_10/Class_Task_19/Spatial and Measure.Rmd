@@ -1,0 +1,49 @@
+---
+title: "Spatial and Measure Data"
+author: "Jim Greene"
+date: "June 26, 2018"
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+#library(ggplot2)
+library(sf)
+library(maps)
+library(ggrepel)
+library(USAboundaries)
+```
+
+```{r}
+us_states("2000-12-31") %>% 
+  st_geometry() %>% 
+  ggplot() +
+  geom_sf()
+```
+
+```{r}
+#nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+states <- sf::st_as_sf(map("state", plot = FALSE, fill = TRUE))
+id <- us_counties() %>% filter(state_abbr == "ID")
+cities <- us_cities() %>% filter(population > 200000) # & state_abbr != "AK" & state_abbr != "HI")
+
+cities %>% 
+  mutate(lon = as.vector(as(geometry, "Spatial")@coords)[1], lat = as.vector(as(geometry, "Spatial")@coords)[2]) %>%
+  ggplot(aes("+proj=longlat")) +
+    theme_bw() +
+    geom_sf(data = states, fill = NA) +
+    geom_sf(data = id, fill = NA) +
+    geom_sf() +
+    geom_text_repel(aes(lon, lat, label = city), size = 3) +
+    coord_sf(xlim = c(-126,-65), ylim = c(25,50))
+
+ggsave("plot1.png", width = 12, height = 9)
+```
+
+
+Lincoln A. Mullen and Jordan Bratt, "USAboundaries: Historical
+and Contemporary Boundaries of the United States of America,"
+Journal of Open Source Software 3, no. 23 (2018): 314,
+https://doi.org/10.21105/joss.00314.
