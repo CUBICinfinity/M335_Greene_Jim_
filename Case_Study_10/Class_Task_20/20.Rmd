@@ -10,10 +10,9 @@ output:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(st)
-library(maps)
+library(maps) # ?
 library(sf)
 library(downloader)
-library(USAboundaries)
 ```
 
 ```{r}
