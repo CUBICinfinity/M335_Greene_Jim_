@@ -38,3 +38,9 @@ nz_sf <- st_as_sf(nz_map)
 To get the datum and other coordinate system metadata, use st_crs()
 
 st_crs(cities)
+
+----
+
+learn: GDAL 
+library(RGDAL)
+RFJS

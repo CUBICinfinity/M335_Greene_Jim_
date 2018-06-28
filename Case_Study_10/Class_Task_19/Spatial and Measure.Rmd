@@ -27,20 +27,61 @@ us_states("2000-12-31") %>%
 #nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
 states <- sf::st_as_sf(map("state", plot = FALSE, fill = TRUE))
 id <- us_counties() %>% filter(state_abbr == "ID")
-cities <- us_cities() %>% filter(population > 200000) # & state_abbr != "AK" & state_abbr != "HI")
+```
+```{r}
+cities <- us_cities() %>% 
+  mutate(lon = map_dbl(geometry, ~st_centroid(.x)[[1]]), lat = map_dbl(geometry, ~st_centroid(.x)[[2]])) %>%
+  group_by(state_name) %>% 
+  filter(population > 200000 & lon < -60 & lon > -130)
+  # order_by(population) %>% 
+cities <- cities %>% 
+  group_by(state_name) %>% 
+  arrange(population) %>% 
+  mutate(rank = 1:length(state_name)) %>% 
+  ungroup()
+```
 
+```{r, eval = F}
+#my_proj <- "+proj=robin +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+my_proj <- "+proj=moll +lat_0=27 +lon_0=-82 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+
+#wintri
+
+states_tr <- states %>% st_transform( crs = my_proj)
+idaho_tr <- id %>% st_transform( crs = my_proj)
+#st_transform(wrld_wrap, "+proj=moll")
+
+ggplot() +
+  geom_sf(data = states_tr, inherit.aes = FALSE) +
+  geom_sf(data = idaho_tr, inherit.aes = FALSE)
+
+#can use coord_sf(change projection in here)
+```
+
+```{r}
+
+  #st_crs("+datum=WGS84") %>% 
+  #mutate(lon = as.vector(as(geometry, "Spatial")@coords)[1], lat = as.vector(as(geometry, "Spatial")@coords)[2]) %>% # this really didn't work
+  #mutate(lon = map_dbl(geometry, ~st_centroid(.x)[[1]]), lat = map_dbl(geometry, ~st_centroid(.x)[[2]])) %>% 
 cities %>% 
-  mutate(lon = as.vector(as(geometry, "Spatial")@coords)[1], lat = as.vector(as(geometry, "Spatial")@coords)[2]) %>%
   ggplot(aes("+proj=longlat")) +
     theme_bw() +
     geom_sf(data = states, fill = NA) +
     geom_sf(data = id, fill = NA) +
-    geom_sf() +
-    geom_text_repel(aes(lon, lat, label = city), size = 3) +
-    coord_sf(xlim = c(-126,-65), ylim = c(25,50))
+    geom_sf(aes()) +
+    geom_text_repel(aes(lon, lat, label = city), size = 3)
+    
+    # +
+    #coord_sf(xlim = c(-126,-65), ylim = c(25,50))
 
-ggsave("plot1.png", width = 12, height = 9)
+#ggsave("plot1.png", width = 12, height = 9)
 ```
+
+```{r}
+(cities %>%
+  mutate(lon = map_dbl(geometry, ~st_centroid(.x)[[1]]), lat = map_dbl(geometry, ~st_centroid(.x)[[2]])))[9:14]
+```
+
 
 
 Lincoln A. Mullen and Jordan Bratt, "USAboundaries: Historical
