@@ -1,0 +1,17 @@
+---
+title: "Building the Past"
+author: "Jim Greene"
+date: "June 28, 2018"
+output:
+  html_document:
+    code_folding: "hide"
+    keep_md: true
+    theme: journal
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(USAboundaries)
+
+```
+
