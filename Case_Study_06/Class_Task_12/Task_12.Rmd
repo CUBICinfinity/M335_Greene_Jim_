@@ -35,3 +35,20 @@ read_lines("https://byuistats.github.io/M335/data/randomletters_wnumbers.txt") %
   plyr::mapvalues(., from = 1:26, to = letters)
 ```
 
+```{r}
+vowel_chains <- read_lines("https://byuistats.github.io/M335/data/randomletters.txt") %>% 
+  str_extract_all('[a-zA-Z]{1,}') %>% 
+  paste(collapse = "") %>% 
+  str_extract_all('[aeiou]{1,}') %>% 
+  unlist()
+
+lengths <- c(rep(0,length(vowel_chains)))
+i <-  0
+for (string in vowel_chains) {
+  i <- i + 1
+  lengths[i] <- nchar(string)
+}
+tibble(vowel_chains, lengths) %>% 
+  arrange(desc(lengths))
+```
+
