@@ -1,0 +1,72 @@
+---
+title: "View all the data"
+author: "Jim Greene"
+date: "June 20, 2018"
+output: 
+  html_document:
+    theme: cosmo
+    code_folding: "hide"
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+Weather <- read_csv("NOAA/Teton.csv") %>% mutate(County = "TETON") %>%
+  bind_rows(read_csv("NOAA/Bingham.csv") %>% mutate(County = "BINGHAM")) %>% 
+  bind_rows(read_csv("NOAA/Jefferson.csv") %>% mutate(County = "JEFFERSON")) %>% 
+  bind_rows(read_csv("NOAA/Madison.csv", col_types = cols(
+    SNOW = col_double(), SNWD = col_integer(), TOBS = col_integer())) %>% mutate(County = "MADISON")) %>% 
+  mutate(DATE = mdy(DATE)) %>% 
+  mutate(Year = year(DATE), Day = yday(DATE)) %>% 
+  filter(Year != 2018)
+
+Potato <- read_csv("potato.csv") %>% filter(County %in% c("BINGHAM", "JEFFERSON", "MADISON", "TETON"))
+```
+
+```{r, eval = F, include = F}
+
+Yield <- data.frame(
+  label = c("4 cylinders", "6 cylinders", "8 cylinders"),
+  cyl   = c(4, 6, 8)
+)
+p + geom_text(
+  data    = dat_text,
+  mapping = aes(x = -Inf, y = -Inf, label = label),
+  hjust   = -0.1,
+  vjust   = -1
+)
+
+
+p 
+```
+
+From
+https://idahopotato.com/dr-potato/when-does-the-idaho-potato-planting-and-harvesting-season-begin
+
+Q:
+When does the Idaho® potato “planting” and “harvesting” season officially begin and end?
+
+A:
+When Does The Idaho Potato PlantingPlanting usually starts in early April and goes into middle May, the bulk of the planting happens in the last two weeks of April and the first two weeks of May. The early warmer areas of the valley start earlier, but they don’t plant nearly as heavily as the cooler areas of the state. Harvest begins in early September and can run through most of October. Most of the potatoes are harvested in the last two weeks of September and the first two weeks of October. Some varieties will be harvested earlier than that, but they don’t account for much production.
+
+
+```{r, fig.width = 10, fig.height = 33.75}
+Weather %>% 
+  ggplot(aes(Day)) +
+    theme_bw() +
+    geom_vline(xintercept = 274.25, color = "#d1ac6c", size = 1) + # size = 1.25
+    geom_point(aes(y = PRCP * (158/3.14) - 32), color = "gray40") +
+    geom_line(aes(y = TMIN), color = "dodgerblue3") +
+    geom_line(aes(y = TMAX), color = "brown3") +
+    scale_y_continuous(sec.axis = sec_axis(~.+32~.*(3.14/158), name = "Precipitation")) +
+    # scale_x_date(labels = function(x) format(x, "%d-%b")) +
+    labs(y = "Temperature", x = "Day", title = "Weather and Potato Yield (100 lbs/acre) in Idaho Counties") +
+    facet_grid(Year ~ County) + 
+    geom_text(
+    data    = filter(Potato, Year %in% 2000:2017),
+    mapping = aes(x = 275, y = 105, label = paste("Yield:", Value), hjust = 0), size = 3) # size = 5
+
+#ggsave("testplot.png", width = 15, height = 50, limitsize = FALSE)
+ggsave("testplot2.png", width = 10, height = 33.75, limitsize = FALSE)
+```
+

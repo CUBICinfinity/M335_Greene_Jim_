@@ -1,0 +1,68 @@
+---
+title: "Weather/Potato Analysis"
+author: "John Fair"
+date: "June 18, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readr)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(ggthemes)
+library(tibble)
+library(imputeTS)
+options(digits=22)
+```
+
+```{r}
+Jeff_wthr<-read_csv("C:\\Users\\jfair\\Desktop\\Math488\\M488_Class\\Jefferson.csv")
+
+Mad_wthr<-read_csv("C:\\Users\\jfair\\Desktop\\Math488\\M488_Class\\Madison.csv")
+
+Teton_wthr<-read_csv("C:\\Users\\jfair\\Desktop\\Math488\\M488_Class\\Teton.csv")
+
+Bing_wthr<-read_csv("C:\\Users\\jfair\\Desktop\\Math488\\M488_Class\\Bingham.csv")
+
+potato <- read_csv("C:\\Users\\jfair\\Desktop\\Math488\\M488_Class\\potato.csv")
+```
+
+```{r}
+Jefferson <- Jeff_wthr %>%
+  select(DATE, PRCP, TMAX, TMIN) %>%
+  mutate(County = "JEFFERSON")
+
+Madison <- Mad_wthr %>%
+  select(DATE, PRCP, TMAX, TMIN) %>%
+  mutate(County = "MADISON")
+
+Teton <- Teton_wthr %>%
+  select(DATE, PRCP, TMAX, TMIN) %>%
+  mutate(County = "TETON")
+
+Bingham <- Bing_wthr %>%
+  select(DATE, PRCP, TMAX, TMIN) %>%
+  mutate(County = "BINGHAM")
+
+SE_Idaho <- rbind(Jefferson, Madison, Teton, Bingham)
+```
+
+```{r}
+County_potato <- SE_Idaho %>%
+  group_by(County) %>%
+  separate(DATE, into = c("MONTH","DAY","Year"))%>%
+  mutate_at(c(1,2,3), as.integer)%>%
+  select(-DAY, -MONTH)%>%
+  group_by(Year, County) %>%
+  summarise(PRCP = sum(PRCP, na.rm = TRUE))%>%
+  left_join(potato, by = c("Year" = "Year", "County"))
+```
+
+
+
+
