@@ -11,6 +11,8 @@ output:
 
 
 
+#### This second version of the case study uses text labels that aren't hard coded.
+
 </br>
 
 ##### I downloaded the standard works and parsed the text of The Book of Mormon for uses of the names of Jesus Christ.
@@ -32,13 +34,13 @@ names <- names %>% arrange(desc(words))
 names_col <- names$name
 
 # MAKE EMPTY TIBBLE
-references <- tibble(name_id = character(), observation = character(), book = character())
+references <- tibble(name_id = character(), observation = character(), book = character(), verse = character())
 end_observation <- ""
 
 # FILL TIBBLE
-for (book in unique(bom$book_title)) {
+for (verse in unique(bom$verse_title)) {
   scr_text <- bom %>% 
-    filter(book_title == book)
+    filter(verse_title == verse)
   
   scr_text <- paste(c(end_observation, scr_text$scripture_text), collapse = " ")
 
@@ -53,7 +55,7 @@ for (book in unique(bom$book_title)) {
     str_match_all("__[0-9]+__") %>% unlist()
 
   references <- references %>% 
-    bind_rows(tibble(name_id = name_id, observation = observations[1:length(observations) - 1], book = book))
+    bind_rows(tibble(name_id = name_id, observation = observations[1:length(observations) - 1], verse = verse, book = str_remove_all(verse, "[0123456789 :]+$")))
   
   # Gets packed onto the first observation of the next book
   end_observation <- observations[length(observations)]
@@ -87,16 +89,8 @@ my_colors <- c("indianred","chocolate4","purple","#ff8800","mediumblue","#00d000
 references %>% 
   ggplot(aes(x = observation_id, y = space)) +
   theme_bw() +
-  annotate(geom = "text", x = 2737, y = 4038, label = "Alma 50:39 - 53:10", size = 2.5, hjust = 0) +
-  annotate(geom = "text", x = 2830, y = 2402, label = "Helaman 1:11 - 3:20", size = 2.5, hjust = 0) +
-  annotate(geom = "text", x = 2820, y = 1735, label = "Alma 62:3 - 62:41", size = 2.5, hjust = 0) +
-  annotate(geom = "text", x = 1538, y = 1703, label = "Mosiah 19:2 - 20:21", size = 2.5, hjust = 1) +
-  annotate(geom = "text", x = 2595, y = 1539, label = "Alma 46:41 - 47:36", size = 2.5, hjust = 1) +
-  annotate(geom = "text", x = 3075, y = 1468, label = "3 Nephi 8:1 - 9:15", size = 2.5, hjust = 0) +
-  annotate(geom = "text", x = 3830, y = 1219, label = "Ether 13:20 - 14:24", size = 2.5, hjust = 1) +
-  annotate(geom = "text", x = 150, y = 905, label = "1 Nephi 8:9 - 36", size = 2.5, hjust = 0) +
-  annotate(geom = "text", x = 1130, y = 592, label = "Jacob 5:57 - 70", size = 2.5, hjust = 1) +
   geom_point(aes(color = book)) +
+  geom_text_repel(data = filter(references, space > 1200), aes(label = verse), size = 3, direction = "y", force = .2) +
   scale_color_manual(values = my_colors) +
   labs(x = "", y = "Number of words between each reference", title = "References to Jesus Christ in the Book of Mormon", color = "") +
   scale_y_continuous(breaks = seq(0, 4000, by = 200)) +
@@ -104,7 +98,7 @@ references %>%
   guides(color = guide_legend(nrow = 2))
 ```
 
-![](References_to_Christ_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](References_to_Christ_2_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 </br>
 
@@ -123,7 +117,7 @@ references %>%
   guides(color = guide_legend(nrow = 2))
 ```
 
-![](References_to_Christ_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](References_to_Christ_2_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 
 
@@ -156,10 +150,26 @@ references_2 %>%
   scale_size_continuous(range = c(1, 3))
 ```
 
-![](References_to_Christ_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](References_to_Christ_2_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
+</br>
 
 
+```r
+references_2 %>% 
+  ggplot(aes(x = cumulative_words, y = space, color = book)) +
+  theme_bw() +
+  geom_point(aes(), alpha = 0.75) +
+  geom_text_repel(data = filter(references_2, space > 1200), aes(label = verse), size = 3, direction = "y", force = .2, color = "black", alpha = 1) +
+  scale_color_manual(values = my_colors) +
+  labs(x = "\nTotal number of words before each reference", y = "Number of words between each reference", title = "References to Jesus Christ in the Book of Mormon", color = "") +
+  theme(legend.position = "bottom", legend.box = "vertical", panel.grid.minor = element_blank(), legend.text = element_text(size = 12)) +
+  scale_x_continuous(position = "top", labels = comma, breaks = seq(0, 300000, by = 25000)) +
+  guides(color = guide_legend(nrow = 2, order = 1), size = guide_legend(order = 2)) +
+  scale_size_continuous(range = c(1, 3))
+```
 
+![](References_to_Christ_2_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 </br>
 
@@ -178,34 +188,9 @@ references_2 %>%
   guides(color = guide_legend(nrow = 2))
 ```
 
-![](References_to_Christ_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](References_to_Christ_2_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
-Here, I am returning to my original plot to add the labels using a different method.
 
-```r
-my_colors <- c("indianred","chocolate4","purple","#ff8800","mediumblue","#00d000","#bb0000","#229977","darkgoldenrod2","#cc33cc","olivedrab","#00cccc","darkmagenta","aquamarine3","#ee7539")
-
-references %>% 
-  ggplot(aes(x = observation_id, y = space)) +
-  theme_bw() +
-  annotate(geom = "text", x = 2737, y = 4038, label = "Alma 50:39 - 53:10", size = 2.5, hjust = 0) +
-  annotate(geom = "text", x = 2830, y = 2402, label = "Helaman 1:11 - 3:20", size = 2.5, hjust = 0) +
-  annotate(geom = "text", x = 2820, y = 1735, label = "Alma 62:3 - 62:41", size = 2.5, hjust = 0) +
-  annotate(geom = "text", x = 1538, y = 1703, label = "Mosiah 19:2 - 20:21", size = 2.5, hjust = 1) +
-  annotate(geom = "text", x = 2595, y = 1539, label = "Alma 46:41 - 47:36", size = 2.5, hjust = 1) +
-  annotate(geom = "text", x = 3075, y = 1468, label = "3 Nephi 8:1 - 9:15", size = 2.5, hjust = 0) +
-  annotate(geom = "text", x = 3830, y = 1219, label = "Ether 13:20 - 14:24", size = 2.5, hjust = 1) +
-  annotate(geom = "text", x = 150, y = 905, label = "1 Nephi 8:9 - 36", size = 2.5, hjust = 0) +
-  annotate(geom = "text", x = 1130, y = 592, label = "Jacob 5:57 - 70", size = 2.5, hjust = 1) +
-  geom_point(aes(color = book)) +
-  scale_color_manual(values = my_colors) +
-  labs(x = "", y = "Number of words between each reference", title = "References to Jesus Christ in the Book of Mormon", color = "") +
-  scale_y_continuous(breaks = seq(0, 4000, by = 200)) +
-  theme(legend.position = "bottom", legend.text = element_text(size = 12)) +
-  guides(color = guide_legend(nrow = 2))
-```
-
-![](References_to_Christ_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 
 
