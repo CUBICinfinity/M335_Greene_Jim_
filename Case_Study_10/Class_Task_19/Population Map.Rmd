@@ -1,0 +1,53 @@
+---
+title: "class task 18"
+author: "Jim Greene"
+date: "June 26, 2018"
+output: 
+  html_document:
+    theme: spacelab
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(sf)
+library(USAboundaries)
+library(maps)
+library(ggrepel)
+
+states <- st_as_sf(map("state", plot = TRUE, fill = TRUE, resolution = 4))
+#states <- st_as_sf(map("state", plot = FALSE, fill = TRUE))
+
+#View(states)
+```
+
+```{r}
+cities <- us_cities(2010) %>% filter(!(state_abbr %in% c("AK", "HI"))) %>% group_by(state_abbr) %>% 
+  top_n(3, population) %>% 
+  mutate(pop_rank = parse_factor(rank(desc(population)), levels = c(1,2,3)))
+  
+  #mutate(rank = parse_factor(rank(desc(population)), levels = c(1,2,3)))
+test_coords <- cities %>% st_coordinates() %>% 
+  as_tibble()
+
+test <- bind_cols(cities, test_coords)
+
+id_co <- us_counties(resolution = "high", states = "ID")
+
+```
+
+
+```{r}
+ggplot() +
+  theme_bw() +
+  geom_sf(data = states, fill = NA) +
+  geom_sf(data = id_co, fill = NA) +
+  geom_point(data = test, aes(x = X, y = Y, size = population/1000, color = pop_rank)) +
+  geom_label_repel(data = filter(test, pop_rank == 1), aes(x = X, y = Y, label = city), color = "darkblue", size = 2.25) +
+  labs(size = "Population\n(1,000)") +
+  scale_color_manual(values = c("darkblue", "royalblue", "skyblue")) +
+  guides(color = F, size = guide_legend(override.aes = list(color = "darkblue"))) +
+  theme(axis.title = element_blank())
+
+ggsave("Plot2.png")
+```
+

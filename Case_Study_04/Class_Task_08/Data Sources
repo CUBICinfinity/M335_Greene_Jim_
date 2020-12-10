@@ -1,0 +1,30 @@
+data sources:
+
+1
+
+BuzzFeed source.
+Information on background checks with firearm purchases through NICS.
+This data set has limitations including that it is only the purchases through NICS and that the laws vary from one state to the other. It might still be useful because it includes details about the types of weapons purchased. I will want to split the date colunm into a month and a year column.
+https://github.com/BuzzFeedNews/nics-firearm-background-checks
+nics <- read_csv("Case_Study_04/Class_Task_08/nics-firearm-background-checks.csv")
+
+2
+
+538 - Guns Poll Quiz
+This is an opinion poll that took place February-March 2018. It has a nice variety of questions and can provide useful background information. I don't particularly like polls however, because they are unlikely correctly represent the population. I wouldn't rely on the data for an analysis.
+https://github.com/fivethirtyeight/data/tree/master/poll-quiz-guns
+read_csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/poll-quiz-guns/guns-polls.csv")
+
+3
+
+data.world 538's report on Gun Deaths
+The details about race and age will be helpful because a part of the motivation of my project is to determine what firearm laws are reccomendable. There is also a column indicating the location of the incident (home, street, etc.). These details would prompt me to putt in other data sets so that I can compare for example, the proportion of people in the US with Bachelor's degrees.
+This is the same data set that is used in Case Study 4, but I found it on my own. The source includes a lot of useful R scripts examples.
+https://data.world/azel/gun-deaths-in-america
+
+4
+
+List of countries by firearm-related death rate
+https://en.wikipedia.org/wiki/List_of_countries_by_firearm-related_death_rate
+This one is really useful. It includes gun related death rates along with the number of guns people own which is exactly the kind of thing I am looking for.
+I found it through this project: https://data.world/pshaff/gun-ownership

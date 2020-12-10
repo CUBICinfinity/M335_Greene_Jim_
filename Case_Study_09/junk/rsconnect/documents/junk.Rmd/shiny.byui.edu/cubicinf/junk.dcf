@@ -1,0 +1,12 @@
+name: junk
+title: junk
+username: cubicinf
+account: cubicinf
+server: shiny.byui.edu
+hostUrl: https://shiny.byui.edu/__api__
+appId: 248
+bundleId: 424
+url: https://shiny.byui.edu/content/248/
+when: 1529444287.65668
+asMultiple: FALSE
+asStatic: TRUE

@@ -1,0 +1,128 @@
+---
+title: "Leaflet Package - Task 21"
+author: "Jim Greene"
+date: "July 3, 2018"
+output: 
+  html_document: 
+  keep_md: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(st)
+library(maps) # ?
+library(sf)
+library(downloader)
+library(leaflet)
+library(rgdal)
+```
+
+```{r, eval = T}
+get_sf_data <- function(data_url) {
+  df <- tempfile()
+  uf <- tempfile()
+  download(data_url, df, mode = "wb")
+  unzip(df, exdir = uf)
+
+  shp_files <- list.files(uf, "*.shp", recursive = T, full.names = T)
+
+  shape_data <- read_sf(shp_files)
+
+  remove(df)
+  remove(uf)
+  
+  return(shape_data)
+}
+
+shape_states <- get_sf_data("https://byuistats.github.io/M335/data/shp.zip")
+shape_well <- get_sf_data("https://research.idwr.idaho.gov/gis/Spatial/Wells/WellConstruction/wells.zip")
+shape_dam <- get_sf_data("https://research.idwr.idaho.gov/gis/Spatial/DamSafety/dam.zip")
+shape_water <- get_sf_data("https://research.idwr.idaho.gov/gis/Spatial/Hydrography/streams_lakes/c_250k/hyd250.zip")
+```
+
+```{r}
+get_ogr_data <- function(data_url, strLayer, policy) {
+  df <- tempfile()
+  uf <- tempfile()
+  download(data_url, df, mode = "wb")
+  unzip(df, exdir = uf)
+
+  shp_files <- list.files(uf, ".shp$", recursive = T, full.names = T)
+
+  ogr_data <- readOGR(shp_files, dsn = uf, layer = strLayer, GDAL1_integer64_policy = policy)
+
+  remove(df)
+  remove(uf)
+  
+  return(ogr_data)
+}
+
+ogr_states <- get_ogr_data("http://www2.census.gov/geo/tiger/GENZ2017/shp/cb_2017_us_state_20m.zip", "cb_2017_us_state_20m", TRUE)
+# idaho <- ogr_states %>% filter(STUSPS == "ID")
+idaho <- subset(ogr_states, ogr_states$STUSPS == "ID")
+
+ogr_water <- get_ogr_data("https://research.idwr.idaho.gov/gis/Spatial/Hydrography/streams_lakes/c_250k/hyd250.zip", "hyd250," TRUE)
+snk_hfk <- subset(ogr_water, ogr_water$FEAT_NAME %in% c("Snake River", "Henrys Fork"))
+
+shp_snk_hfk <- filter(shape_water, FEAT_NAME == "Snake River" | FEAT_NAME == "Henrys Fork")
+
+sf_test <- get_sf_data("http://www2.census.gov/geo/tiger/GENZ2017/shp/cb_2017_us_state_20m.zip")
+```
+
+
+```{r, eval = F}
+leaflet(idaho) %>% 
+  setView(lng = -114, lat = 45.25, zoom = 6) %>% 
+  addPolygons() %>% 
+  addPolygons(data = filter(shape_water, FEAT_NAME == "Snake River" | FEAT_NAME == "Henrys Fork"))
+  
+```
+
+```{r, eval = F}
+ls1 <- st_linestring(shp_snk_hfk$geometry)
+(polygonData.LINESTRING <- function(ls1) list(leaflet:::sf_coords(unclass(ls1))) )
+#addPolylines(data = polygonData.LINESTRING(ls1)[[1]], lng=~lng, lat=~lat)
+```
+
+```{r}
+well_big <- filter(shape_well, Production >= 5000)
+dam_big <- filter(shape_dam, SurfaceAre >= 50)
+
+shp_snk_hfk %>% mutate(lat = )
+
+leaflet(idaho) %>% 
+  setView(lng = -114, lat = 45.25, zoom = 6) %>% 
+  addTiles() %>% 
+  addPolygons(data = idaho, fillOpacity = 0.0) %>% 
+  addCircles(lat = well_big$Latitude, lng = well_big$Longitude, color = "green") %>% 
+  # addCircles(lat = (dam_big$geometry %>% lapply(`[`, 2) %>% unlist()), lng = (dam_big$geometry %>% lapply(`[`, 1) %>% unlist()), color = "#FF0000")
+  addPolygons(data = snk_hfk)
+```
+
+
+
+
+
+```{r, eval = F}
+center_idaho <- "+proj=moll +lat_0=45 +lon_0=-114 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+idaho_tr <- shape_states %>% st_transform(crs = center_idaho)
+
+# Idaho state uses this: "+proj=tmerc +lat_0=42 +lon_0=-114 +k=0.9996 +x_0=2500000 +y_0=1200000 +ellps=GRS80 +units=m +no_defs"
+```
+
+
+```{r, eval = F}
+ggplot() +
+  geom_sf(data = filter(idaho_tr, StateName %in% "Idaho"), fill = "#deedec") +
+  geom_sf(data = filter(shape_water, FEAT_NAME == "Snake River" | FEAT_NAME == "Henrys Fork"), color = "#20b4ea", size = 1.25) +
+  geom_sf(data = filter(shape_dam, SurfaceAre >= 50), aes(size = SurfaceAre, color = "#d2e21d")) +
+  geom_sf(data = filter(shape_well, Production >= 5000), aes(size = Production, color = "#199e04")) +
+  scale_colour_manual(name = "", values = c('#d2e21d' = '#d2e21d','#199e04' = '#199e04'), labels = c('Dams', 'Wells')) +
+  scale_fill_manual(values = c('#d2e21d' = '#d2e21d','#199e04' = '#199e04'), labels = c('Dams', 'Wells')) +
+  guides(color = guide_legend(override.aes = list()), size = F) + # guide_legend(override.aes = list(color = "gray50"))) +
+  theme_minimal()# +
+  # theme(legend.position = "none")
+
+ggsave("Wells and Dams Map.png")
+```
+

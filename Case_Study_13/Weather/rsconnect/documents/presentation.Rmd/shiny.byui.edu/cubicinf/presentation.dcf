@@ -1,0 +1,12 @@
+name: presentation
+title: presentation
+username: cubicinf
+account: cubicinf
+server: shiny.byui.edu
+hostUrl: https://shiny.byui.edu/__api__
+appId: 357
+bundleId: 627
+url: https://shiny.byui.edu/content/357/
+when: 1532153044.91733
+asMultiple: FALSE
+asStatic: TRUE

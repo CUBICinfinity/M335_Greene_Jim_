@@ -1,0 +1,61 @@
+---
+title: "weather codes"
+author: "Jim Greene"
+date: "May 30, 2018"
+output: html_document
+---
+
+```{r, warning = FALSE, message = FALSE, echo = FALSE, fig.width=10, fig.height=6}
+
+ library(tidyverse)
+ library(lubridate)
+
+df <- read.csv("https://query.data.world/s/2sisr77gqhpmnzzshqmmxcfx7qirkd", header=TRUE, stringsAsFactors=FALSE)
+
+
+# clean it up a little
+no_na <- df %>% 
+  select(station, valid, p01i) %>% 
+  separate(valid, into = c("date", "time"), sep = -10) %>% 
+  mutate(time = str_replace_all(time, c("T" = "", "Z" = ""))) %>% #take away TZ
+  unite(date_time, date, time, sep = " ") %>% # to make them official
+  mutate(date_time = as_datetime(date_time),
+         date_time = floor_date(date_time, unit = "hour")) %>% 
+  replace_na(list(p01i = 0)) %>% 
+  separate(date_time, into = c("date", "time"), sep = -8) %>% 
+  group_by(date, time) %>% 
+  summarize(total_rain = max(p01i)) %>% #max rain total per hour
+  group_by(date) %>% 
+  summarise(total_rain = sum(total_rain)) %>% #sum up all hourly totals
+  mutate(year = year(date),
+         mon = month(date, label = TRUE)) %>% # make months 
+  group_by(year, mon) %>% 
+  summarize(total_rain = sum(total_rain)) # make month totals summing up days
+
+yearly_rain <- no_na %>% 
+  group_by(year) %>% 
+  summarise(total_rain = sum(total_rain)) %>% 
+  mutate(avg = round(mean(total_rain), 1),
+         position = case_when(
+           total_rain >= avg ~ "Above",
+           TRUE ~ "Below"
+         ))
+
+yearly_rain %>% 
+  ggplot(aes(x = year, y = total_rain)) +
+  geom_bar(stat = "identity", aes(fill = position), width = .5) +
+  theme_bw() +
+  scale_fill_manual(name = "Mean Precipitation",
+                    labels = c("Above Average", "Below Average"),
+                    values = c("Above" = "#8F8989", "Below" = "#2372D1"))+
+  geom_hline(aes(yintercept = mean(avg)), linetype = "dashed") +
+  labs(x = "Year", 
+       y = "Precipitation (inches)", 
+       title = "Rexburg Yearly Precipitation") +
+  theme(axis.text.x = element_text(angle = 45, vjust = .3, hjust = .4),
+        plot.title = element_text(hjust = .5, size = rel(1.5)),
+        axis.title = element_text(size = rel(1.5)),
+        axis.text.y = element_text(size = rel(1.5))) + 
+  scale_x_continuous(breaks = seq(1998, 2018, 1)) +
+  scale_y_continuous(breaks = seq(0, 18, 2))
+```

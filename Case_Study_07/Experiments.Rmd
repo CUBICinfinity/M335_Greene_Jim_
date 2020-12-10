@@ -1,0 +1,44 @@
+---
+title: "Case Study 7 Process"
+author: "Jim Greene"
+date: "June 7, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(rio)
+data <- read_rds(gzcon(url("https://byuistats.github.io/M335/data/BoM_SaviorNames.rds")))
+
+verse <- read_lines("https://byuistats.github.io/M335/data/2nephi2516.txt")
+names <- import("https://byuistats.github.io/M335/data/BoM_SaviorNames.rds")
+#View(data)
+```
+
+```{r}
+# for each name string in the list, in descending words order, 
+# 
+# replace all with rep("ref", length(name string))
+# 
+# instead of rep() suggested str_c("__", i, "__")
+
+names <- names %>% arrange(desc(words))
+
+observations <- verse_breaks %>% 
+  str_split("__[0-9]+__") %in% unlist()
+
+names_id <- verse_breaks %>% 
+  str_match_all("__[0-9]+__")
+
+names(observations) <- names_id[[1]][,1] # not exactly right?
+
+#think there is an end name and a beginning name so consider the end segments. There will be one less split than segment.
+```
+
+
+
+
+
+```{r}
+head(names)
+```

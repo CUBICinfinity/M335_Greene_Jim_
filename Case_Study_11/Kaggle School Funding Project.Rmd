@@ -1,0 +1,44 @@
+---
+title: "School Funding"
+author: "Jim Greene"
+date: "July 7, 2018"
+output: 
+  html_document:
+    keep_md: true
+    theme: cerulean
+    code_folding: "hide"
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(leaflet)
+```
+
+```{r, message = F}
+schools <- read_csv("2016 School Explorer.csv")
+shsat <- read_csv("D5 SHSAT Registrations and Testers.csv")
+```
+
+```{r, message = F}
+full_data <- full_join(schools, shsat, c('Location Code' = 'DBN'))
+
+left_join <- left_join(shsat, schools, c('DBN' = 'Location Code'))
+colnames(left_join)[5] <- "Enrollment"
+colnames(left_join)[7] <- "Number_took_the_SHSAT"
+colnames(left_join)[46] <- "Average_ELA_Proficiency"
+colnames(left_join)[47] <- "Average_Math_Proficiency"
+colnames(left_join)[23] <- "Economic_Need_Index"
+left_join <- left_join %>% mutate(shsat_ratio = Number_took_the_SHSAT / Enrollment * 100)
+```
+### Students taking the SHSAT in District 5 in 2016
+```{r, message = F, fig.width = 10}
+left_join %>% filter(`Year of SHST` == 2016) %>% leaflet() %>% addProviderTiles(providers$CartoDB.Positron) %>% 
+  addCircleMarkers(
+    lng = ~Longitude, lat = ~Latitude,
+    label = paste(left_join$'School Name', ", Percent took test: ", round(left_join$shsat_ratio, digits = 2), ", Economic Need Index: ", left_join$Economic_Need_Index, sep = ""),
+    labelOptions = labelOptions(noHide = F), 
+    radius = ~sqrt(Enrollment) / 3.14)
+```
+
+This dataset is from kaggle.com/passnyc/data-science-for-good. The question they were asking is what schools would most benefit from PASSNYC services to increase the diversity of students taking the Specialized High School Admissions Test. </br>
+This map does not address nationality, language, or race, but does show a summary of a few values for the listed schools in District 5. The circle area sizes are based on the number of students enrolled. The schools with zero percent taking the SHSAT get my interest. If I was invested in this project, I would contact those who hosted it and ask them about the data and how it was collected. I spent my time here on getting the labels to work. I should figure out how to fix them so they read on more than one line.

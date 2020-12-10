@@ -1,0 +1,22 @@
+Class Notes
+
+method 1 foreign::read.spss(    to.data.frame = TRUE)
+
+method 2
+haven::read_sav()
+downgrade 1.1.0
+
+method 3
+mars development version (mac only)
+
+
+see ?install.packages
+type = "source"
+
+data$end_month <- factor(data$end_month, levels = month.name)
+
+kable
+kableExtra
+
+these are better than just using pander
+

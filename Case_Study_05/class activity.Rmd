@@ -1,0 +1,44 @@
+---
+title: "class activity"
+author: "Jim Greene"
+date: "May 24, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+data <- read_csv("C:/Users/Jim/Desktop/Math 335/M335_Greene_Jim_/Case_Study_05/building_utility_values.csv")
+
+data %>%
+  mutate(timestamp = parse_datetime(data$timestamp, format = "%m%.%d%.%Y %H:%M"), startdate = parse_date(data$startdate, format = "%m%.%d%.%Y"), enddate = parse_date(data$enddate, format = "%m%.%d%.%Y"))
+
+data <- data %>% 
+  select(building_id:enddate, contains("water")) %>% 
+  separate(building_id, into = c("state", "id"), sep = 2, convert = TRUE)
+
+data <- data %>%   
+  separate(enddate, c("endyear", "endmonth", "endday"), sep = "/", remove = F)
+
+# data %>%
+#   ggplot(aes(as_numeric(endyear), total_potable_water_gal)) +
+#   geom_point()
+```
+
+
+```{r, eval = F}
+data$timestamp <- parse_datetime(data$timestamp, format = "%m%.%d%.%Y %H:%M")
+data$startdate <- parse_date(data$startdate, format = "%m%.%d%.%Y")
+data$enddate <- parse_date(data$enddate, format = "%m%.%d%.%Y")
+```
+
+
+```{r}
+data %>%
+  count(state, id) %>% 
+  count(state) %>% 
+  rename('number of buildings' = nn)
+```
+
+
+
+

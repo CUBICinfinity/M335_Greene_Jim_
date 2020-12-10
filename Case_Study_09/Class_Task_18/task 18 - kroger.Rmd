@@ -1,0 +1,56 @@
+---
+title: "Kroger, Interactive Graph"
+author: "Jim Greene"
+date: "June 21, 2018"
+output: 
+  html_document:
+    code_folding: "hide"
+    theme: simplex
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+library(dygraphs)
+library(tidyquant)
+library(timetk)
+#kg <- tq_get("KG", "stock.prices") %>% filter(DATE >= "2013-06-21")
+kg <- as.data.frame(read_csv("HistoricalQuotes.csv")[-1,])
+rownames(kg) <- kg[[1]]
+
+kg2 <- read_csv("HistoricalQuotes.csv")[-1,] %>% 
+  mutate(date = ymd(date)) %>% 
+  tk_xts(select = close, date_var = date)
+```
+
+</br>
+
+### First Version with Event Lines
+```{r, fig.width = 8.5}
+kg[-1] %>% 
+  select(close) %>% # in future could add volume to a second axis
+  dygraph(main = "Kroger (KG) Stock Prices") %>%
+  dyEvent("2017-06-15", "June 15 - Drop", labelLoc = "bottom") %>%
+  dyEvent("2017-11-29", "November 28-30 - Rise", labelLoc = "bottom") %>%
+  dyOptions(drawPoints = TRUE, pointSize = 1) %>%
+  dyRangeSelector(height = 26)
+```
+
+
+### Second Version with Annotations
+```{r, fig.width = 8.5}
+kg2 %>% 
+  dygraph(main = "Kroger (KG) Stock Prices") %>%
+  #dyEvent("2017-06-15", "June 15 - Drop", labelLoc = "bottom") %>%
+  #dyEvent("2017-11-29", "November 28-30 - Rise", labelLoc = "bottom") %>%
+  dyAnnotation(x = "2017-06-15", text = "Drop", width = 30, tooltip = "June 15th, 2017: Investors React to Lowered Prices") %>%
+  dyAnnotation(x = "2017-11-29", text = "Rise", width = 30, tooltip = "December 2017: Possible Reaction to Holiday Discounts") %>%
+  dyOptions(drawPoints = TRUE, pointSize = 1) %>%
+  dyRangeSelector(height = 26)
+```
+
+
+</br>
+*According to [fool.com](https://www.fool.com/investing/2017/07/05/why-the-kroger-co-stock-plunged-217-in-june.aspx), investors reacted to Kroger having lowered their prices on June 15th, 2017 to provide better value to their customers.* </br>
+
+*Around December first that same year the stock went back up. [Zacks.com](https://www.zacks.com/stock/news/284680/kroger-kr-catches-eye-stock-jumps-61) suggested that it was due to the release of the third quarter report with higher than expected revenue, but I believe that people were speculating when Kroger offered several promotions.*
+

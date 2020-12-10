@@ -1,0 +1,33 @@
+---
+title: 'Task 11: More CrackerJacks'
+author: "Jim Greene"
+date: "May 29, 2018"
+output: 
+  html_document:
+    theme: spacelab
+    keep_md: true
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(Lahman)
+library(blscrapeR)
+```
+
+ 
+```{r, warning = F}
+Master %>% 
+  inner_join(CollegePlaying, by = "playerID") %>% 
+  inner_join(filter(Schools, state == "UT"), by = "schoolID") %>% 
+  left_join(Salaries, by = "playerID") %>% 
+  mutate(byu = schoolID == "byu") %>% 
+  as.tibble() %>% 
+  left_join(as.tibble(inflation_adjust(2017)), by = c("yearID" = "year")) %>% 
+  ggplot(aes(byu, salary)) +
+  theme_light() +
+  geom_boxplot(fill = "#82b393") +
+  scale_y_continuous(labels = scales::dollar) +
+  labs(x = "From BYU", y = "Salary", title = "Earnings of Professional Baseball Players from a Utah University")
+```
+

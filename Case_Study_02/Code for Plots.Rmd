@@ -1,0 +1,55 @@
+---
+title: "Case Study 2: Wealth and Life Expectancy (Gapminder)"
+author: "Jim Greene"
+date: "May 4, 2018"
+output: 
+  html_document:
+    theme: default
+    keep_md: true
+---
+
+
+```{r setup, include=FALSE, warning=F}
+library("tidyverse")
+library("gapminder")
+library("Lahman")
+library(scales)
+```
+
+
+```{r, echo = F, warning = F, include=F}
+ggplot(data = filter(gapminder, country != "Kuwait")) +
+  theme_bw() +
+  geom_point(mapping = aes(x = lifeExp, y = gdpPercap, color = continent, size = pop/1000000)) +
+  scale_y_continuous(trans = "sqrt") +
+  facet_wrap( ~ year, nrow = 1) +
+  labs(x = "Life Expectancy", y = "GDP Per Capita", color = "Continent", size = "Population (Millions)")
+```
+
+```{r}
+ggsave("Case_Study_02/images/LifeExpectancy.png", plot = last_plot(), width = 15)
+```
+
+```{r, echo=F, include=F}
+gapminder2 <- filter(gapminder, country != "Kuwait") %>%
+  group_by(year, continent) %>% 
+  mutate(wm = weighted.mean(gdpPercap, pop))
+  # Originally summarize was used instead of mutate, but pop was difficult to return
+```
+
+```{r, echo=F, warning=F, include=F}
+filter(gapminder, country != "Kuwait") %>%
+  ggplot() +
+  theme_bw() +
+  geom_point(mapping = aes(x = year, y = gdpPercap, color = continent, size = pop/1000000)) +
+  facet_wrap( ~ continent, nrow = 1) +
+  geom_line(mapping = aes(x = year, y = gdpPercap, color = continent, group = country)) +
+  ylim(0,50000) + 
+  labs(x = "Year", y = "GDP Per Capita", color = "Continent", size = "Population (Millions)") +
+  geom_point(data = gapminder2, mapping = aes(x = year, y = wm, size = pop/1000000)) + 
+  geom_line(data = gapminder2, mapping = aes(x = year, y = wm))
+```
+
+```{r}
+ggsave("Case_Study_02/images/ContinentGDP.png", plot = last_plot(), width = 15)
+```

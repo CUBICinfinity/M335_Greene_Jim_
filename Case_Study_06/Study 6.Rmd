@@ -1,0 +1,34 @@
+---
+title: "Case Study 6"
+author: "Jim Greene"
+date: "May 29, 2018"
+output: 
+  html_document:
+    theme: readable
+    keep_md: true
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(haven)
+library()
+```
+
+```{r, eval = F}
+as.tibble(buildings::buildings0809)
+?buildings::buildings0809
+```
+```{r, eval = F}
+?buildings::climate_zone_fips
+as.tibble(buildings::climate_zone_fips)
+```
+```{r, eval = F}
+as.tibble(buildings::permits)
+?buildings::permits
+```
+```{r, eval = F}
+as.tibble(buildings::restaurants)
+?buildings::restaurants
+```
+

@@ -1,0 +1,19 @@
+---
+title: "nycflights"
+author: "Jim Greene"
+date: "May 3, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(nycflights13)
+library(tidyverse)
+```
+
+```{r}
+fly <- nycflights13::flights
+
+# This is how you use one_of()
+vars <- select(fly, one_of(c("year", "month", "day", "dep_delay", "arr_delay")))
+
+```

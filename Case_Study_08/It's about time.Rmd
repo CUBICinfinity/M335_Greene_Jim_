@@ -1,0 +1,94 @@
+---
+title: "It's about Time"
+author: "Jim Greene"
+date: "June 14, 2018"
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(mosaic)
+sales <- read_csv("https://byuistats.github.io/M335/data/sales.csv")
+
+# look up nanair
+```
+
+              
+These are the types:
+
+Short Stop, Food(pre-packaged), 2593
+
+Tacontento, Food(prepared), 4333
+
+Splash and Dash, Services, 533
+
+Le Belle, Goods, 634
+
+Hot Diggity, Food(prepared), 5887
+
+Frozone, Food(pre-packaged), 1674
+
+```{r}
+# fix time zone
+sales$Time <- with_tz(sales$Time, "America/Denver")
+# Make an hour column
+sales <- sales %>% mutate(Hour = hour(Time), Date = date(Time), Weekday = wday(Time, label = T), Monthday = mday(Time), Month = month(Time), Week = week(Time), Clock = (hour(Time) + minute(Time)/60)) %>% filter(Name != "Missing")
+```
+
+
+
+All the businesses have unusual outliers and negative values. I have attempted some speculation, and I think that they are necessary to the final balance. Considering that and since there is no documentation on what the values mean, I chose to include all of data. I only exculed the "Missing" company name because it can not be informatively associated with any of the others.
+
+As discussed in class, it is also possible that many transactions were not entered through the system at the the time the purchases actually occured. Just the same, many of these hours are still possible and I am mainly concerned with understanding the performance of each business so I did not cooerce those values to anything other than what has been given.
+
+These discrepencies should be kept in mind, but a reasonanable understanding can still be obtained.
+
+One transaction of -$87.70 occurs for Hot Diggity, April 20th. I expect that this was a preparatory expense.
+
+```{r}
+sales %>% 
+  ggplot(aes(Clock, Weekday)) +
+  theme_minimal() +
+  geom_bin2d(bins = 14) +
+  coord_cartesian(xlim = c(8, 21)) +
+  scale_x_continuous(breaks = seq(8, 21, by = 1)) +
+  theme(panel.grid = element_line(color = "black"), panel.grid.minor = element_blank(), panel.grid.major.y = element_blank()) +
+  labs(x = "Time in hours", y = "Company", title = "Transaction Volume") +
+  facet_wrap(~ Name) +
+  scale_fill_gradient(trans = "log", name = "Transactions")
+```
+
+For IBC businesses at the school, 10am-1:30pm is the peak time. There is also a little flow for some businesses from 5-8pm.
+
+
+
+```{r, fig.width = 11}
+# Profits by week
+
+sales %>% 
+  group_by(Name, Week) %>% 
+  summarize(Sum = sum(Amount)) %>% 
+    ggplot(aes(Week, y = Sum)) +
+    geom_line(aes(color = Name),size = 1) +
+    scale_y_continuous(labels = scales::dollar) +
+    scale_x_continuous(breaks = seq(16, 28, by = 4)) +
+    facet_wrap(~Name, nrow = 1)
+```
+
+```{r}
+# TO DO: make a cumsum line graph.
+#plot(cumsum(sales$Amount))
+
+sales %>%
+  group_by(Name) %>%
+  arrange(Time) %>% 
+  mutate(Sum = cumsum(Amount)) %>% 
+  ggplot(aes(Time, Sum)) +
+  geom_line(aes(group = Name, color = Name))
+
+```
+
+Since Le Belle might have been a fad, I would most reccommend investing in Hot Diggity because it is so consistent and had higher profits than any of the other companies.

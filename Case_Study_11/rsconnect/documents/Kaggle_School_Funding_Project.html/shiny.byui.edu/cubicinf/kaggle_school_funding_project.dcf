@@ -1,0 +1,12 @@
+name: kaggle_school_funding_project
+title: Kaggle_School_Funding_Project
+username: cubicinf
+account: cubicinf
+server: shiny.byui.edu
+hostUrl: https://shiny.byui.edu/__api__
+appId: 335
+bundleId: 556
+url: https://shiny.byui.edu/content/335/
+when: 1531261648.24011
+asMultiple: FALSE
+asStatic: TRUE

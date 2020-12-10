@@ -1,0 +1,47 @@
+---
+title: "codes for the time series"
+author: "Jim Greene"
+date: "May 30, 2018"
+output: html_document
+---
+
+```{r, warning = FALSE, message = FALSE, echo = FALSE, fig.width=10, fig.height=6}
+
+ library(tidyverse)
+ library(lubridate)
+ library(ggrepel)
+#library(tidyverse)
+
+df <- read.csv("https://query.data.world/s/2sisr77gqhpmnzzshqmmxcfx7qirkd", header=TRUE, stringsAsFactors=FALSE)
+
+
+# clean it up a little
+no_na <- df %>% 
+  select(station, valid, p01i) %>% 
+  separate(valid, into = c("date", "time"), sep = -10) %>% 
+  mutate(time = str_replace_all(time, c("T" = "", "Z" = ""))) %>% #take away TZ
+  unite(date_time, date, time, sep = " ") %>% # to make them official
+  mutate(date_time = as_datetime(date_time),
+         date_time = floor_date(date_time, unit = "hour")) %>% 
+  replace_na(list(p01i = 0)) %>% 
+  separate(date_time, into = c("date", "time"), sep = -8) %>% 
+  group_by(date, time) %>% 
+  summarize(total_rain = max(p01i)) %>% #max rain total per hour
+  group_by(date) %>% 
+  summarise(total_rain = sum(total_rain)) %>% #sum up all hourly totals
+  mutate(year = year(date),
+         mon = month(date, label = TRUE)) %>% # make months 
+  group_by(year, mon) %>% 
+  summarize(total_rain = sum(total_rain)) # make month totals summing up days
+  
+
+# Make time plot
+ggplot(no_na, aes(x = mon, y = total_rain)) +
+  geom_point() +
+  geom_line(color = "purple") +
+  geom_text_repel(aes(label = total_rain)) +
+  facet_wrap(~year, nrow = 7) +
+  theme_bw() +
+  labs(y = "Monthly Rain Total", x = "Month") +
+  theme(axis.text.x = element_text(angle = 90))
+```
